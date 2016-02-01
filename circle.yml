@@ -4,8 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - gem uninstall bundler
-    - gem install bundler
+    - gem update bundler
 
 test:
   override:
