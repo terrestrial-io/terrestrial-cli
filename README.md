@@ -3,21 +3,15 @@
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'terrestrial-cli'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install terrestrial-cli
 
 ## Usage
+
+To get started with your project, cd to your project repository and run
+
+    $ terrestrial init --api-key <API KEY> --project-id <PROJECT ID>
+
+You can find your API key and the correct project ID by logging into [Terrestrial Misson Control](https://mission.terrestrial.io).
 
 
 ## Contributing
