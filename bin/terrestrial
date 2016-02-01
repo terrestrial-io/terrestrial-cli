@@ -3,16 +3,23 @@
 require 'terrestrial'
 require 'optparse'
 
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: terrestrial <command> <options>"
+  opts.separator  ""
+  opts.separator  "Commands"
+  opts.separator  "     init: Initialize your project with Terrestrial"
+  opts.separator  ""
+  opts.separator  "Options"
+
+  opts.on("--api-key [string]", "Set and store api key") do |key|
+    options[:api_key] = key
+  end
+end.parse!
+
 command = ARGV[0]
 
 abort "Terrestrial CLI #{Terrestrial::Cli::VERSION}" if command.nil?
-abort "Terrestrial: '#{ARGV[0]}' does not compute?" unless Terrestrial::Cli::COMMANDS.include? command
+abort "Terrestrial: '#{command}' does not compute?" unless Terrestrial::Cli::COMMANDS.include? command
 
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: terrestrial [options]"
-
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
-  end
-end.parse!
+Terrestrial::Cli.start(command, options)

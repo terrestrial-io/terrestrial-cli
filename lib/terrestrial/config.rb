@@ -29,18 +29,22 @@ module Terrestrial
         _reset!
       end
 
+      def inspect
+        "<Terrestrial::Config config=#{values.inspect}>"
+      end
+
       private
 
       def _load_project_config
         begin
-          values.merge!(YAML.load_file(_project_config_path))
+          values.merge! _project_config
         rescue Errno::ENOENT
           abort "No terrerstrial.yaml found. Are you in the correct folder?"
         end
       end
 
       def _load_global_config
-        values.merge!(YAML.load_file(_global_config_path))
+        values.merge! _global_config
       end
 
       def _reset!
@@ -51,12 +55,12 @@ module Terrestrial
         @values ||= Hash.new.merge(DEFAULTS)
       end
 
-      def _global_config_path
-        Dir.home + "./terrestrial"
+      def _global_config
+        YAML.load_file(Dir.home + "./terrestrial")
       end
 
-      def _project_config_path
-        Dir.pwd  + "/terrestrial.yml"
+      def _project_config
+        YAML.load_file(Dir.pwd  + "/terrestrial.yml")
       end
     end
   end
