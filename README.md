@@ -28,6 +28,10 @@ To build the gem and install it in your current Gemset, run
 
     rake build
 
+To run tests
+
+    rspec
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
