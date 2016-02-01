@@ -1,5 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'terrestrial/cli'
+require 'optparse'
 
-Terrestrial::Cli.test
+command = ARGV[0]
+
+abort "Terrestrial CLI #{Terrestrial::Cli::VERSION}" if command.nil?
+abort "Terrestrial: '#{ARGV[0]}' does not compute?" unless Terrestrial::Cli::COMMANDS.include? command
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: terrestrial [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
