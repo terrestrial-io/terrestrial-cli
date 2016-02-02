@@ -3,6 +3,9 @@ require "terrestrial/cli/init"
 require "terrestrial/cli/version"
 require "terrestrial/cli/detects_project_type"
 require "terrestrial/cli/file_picker"
+require "terrestrial/cli/parser"
+require "terrestrial/cli/editor"
+require "terrestrial/cli/engine_mapper"
 
 module Terrestrial
   module Cli
