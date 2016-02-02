@@ -1,6 +1,23 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
+require 'byebug'
 require 'terrestrial'
+
+def mock_web(method)
+  client = object_double(Terrestrial::Web.new("fake_api_key"))
+  response = double(
+    Terrestrial::Web::Response.new(nil),
+    success?: true,
+    response: { "data" => {} }
+  )
+  yield response if block_given?
+
+  allow(Terrestrial::Web).to receive(:new)
+    .with(any_args)
+    .and_return(client)
+
+  allow(client).to receive(method).and_return(response)
+end
 
 def mock_project_config
   config = Hash.new

@@ -1,15 +1,22 @@
-require 'yaml'
-
 module Terrestrial
   module Config
     class << self
 
       DEFAULTS = {
-        api_url: "https://mission.terrestrial.io"
+        api_url: "https://mission.terrestrial.io",
+        directory: Dir.pwd
       }
 
-      GLOBAL_CONFIG_LOCATION  = Dir.home + "./terrestrial"
-      PROJECT_CONFIG_LOCATION = Dir.pwd  + "/terrestrial.yml"
+      GLOBAL_KEYS = [
+        :api_key,
+        :user_id
+      ]
+
+      PROJECT_KEYS = [
+        :app_id,
+        :project_id,
+        :platform
+      ]
 
       def load(opts = {})
         values.merge!(opts)
@@ -31,6 +38,18 @@ module Terrestrial
 
       def inspect
         "<Terrestrial::Config config=#{values.inspect}>"
+      end
+
+      def update_project_config(fail_if_exists: false)
+        if fail_if_exists && File.exists?(_project_config_path)
+          abort "Looks like there already exists a project in this directory. Are you in the correct folder?"
+        end
+
+        YamlHelper.update(_project_config_path, values.select {|key, val| PROJECT_KEYS.include? key })
+      end
+
+      def update_global_config
+        YamlHelper.update(_global_config_path, values.select {|key, val| GLOBAL_KEYS.include? key })
       end
 
       private
@@ -56,11 +75,19 @@ module Terrestrial
       end
 
       def _global_config
-        YAML.load_file(Dir.home + "./terrestrial")
+        YamlHelper.read _global_config_path
       end
 
       def _project_config
-        YAML.load_file(Dir.pwd  + "/terrestrial.yml")
+        YamlHelper.read _project_config_path
+      end
+
+      def _global_config_path
+        Dir.home + "/.terrestrial"
+      end
+
+      def _project_config_path
+        Dir.pwd  + "/terrestrial.yml"
       end
     end
   end

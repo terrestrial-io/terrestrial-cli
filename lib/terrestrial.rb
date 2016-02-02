@@ -1,6 +1,7 @@
+require 'terrestrial/yaml_helper'
+require 'terrestrial/config'
 require 'terrestrial/cli'
 require 'terrestrial/web'
-require 'terrestrial/config'
 
 module Terrestrial
 end

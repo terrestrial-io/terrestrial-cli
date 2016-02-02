@@ -1,3 +1,4 @@
+require 'terrestrial/web/response'
 require 'net/http'
 require 'json'
 
@@ -72,20 +73,6 @@ module Terrestrial
 
     def token
       Config[:api_key]
-    end
-  end
-
-  class Response
-    def initialize(http_response)
-      @inner_response = http_response
-    end
-
-    def success?
-      @inner_response.code.to_s.start_with?("2")
-    end
-
-    def body
-      JSON.parse(@inner_response.body)
     end
   end
 end

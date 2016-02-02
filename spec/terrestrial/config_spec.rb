@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'yaml'
 
 describe Terrestrial::Config do
 
@@ -19,9 +18,9 @@ describe Terrestrial::Config do
 
   context "#load!" do
     it "reads a global config for configuration" do
-      allow(YAML).to receive(:load_file).with(any_args).and_return(Hash.new)
-      allow(YAML).to receive(:load_file)
-                      .with(Dir.home + "./terrestrial")
+      allow(Terrestrial::YamlHelper).to receive(:read).with(any_args).and_return(Hash.new)
+      allow(Terrestrial::YamlHelper).to receive(:read)
+                      .with(Dir.home + "/.terrestrial")
                       .and_return({ global: "config" })
 
       Terrestrial::Config.load!
@@ -29,11 +28,11 @@ describe Terrestrial::Config do
     end
 
     it "reads the config of the project configuration" do
-      allow(YAML).to receive(:load_file).with(any_args).and_return(Hash.new)
+      allow(Terrestrial::YamlHelper).to receive(:read).with(any_args).and_return(Hash.new)
       allow(Dir).to receive(:pwd)
                       .and_return("/path/to/project")
 
-      allow(YAML).to receive(:load_file)
+      allow(Terrestrial::YamlHelper).to receive(:read)
                       .with("/path/to/project/terrestrial.yml")
                       .and_return({ project: "config" })
 
@@ -52,6 +51,62 @@ describe Terrestrial::Config do
       end
 
       expect(output).to eq "No terrerstrial.yaml found. Are you in the correct folder?\n"
+    end
+  end
+
+  context "#update_project_config" do
+    it "writes the relevant project config to the current terrestrial.yml" do
+      allow(Dir).to receive(:pwd).and_return("/path/to/project")
+
+      Terrestrial::Config.load({
+        app_id: 123,
+        project_id: 456,
+        platform: "ios",
+        random_value: "asd"
+      })
+
+      expect(Terrestrial::YamlHelper).to receive(:update)
+        .with("/path/to/project/terrestrial.yml", { app_id: 123, project_id: 456, platform: "ios" })
+
+      Terrestrial::Config.update_project_config
+    end
+
+    it "can be said to warn if the file already exists" do
+      allow(Dir).to receive(:pwd).and_return("/path/to/project")
+
+      Terrestrial::Config.load({
+        app_id: 123,
+        project_id: 456,
+        platform: "ios",
+        random_value: "asd"
+      })
+
+      expect(File).to receive(:exists?).and_return(true)
+
+      output = capture_stderr do
+        expect {
+          Terrestrial::Config.update_project_config(fail_if_exists: true)
+        }.to raise_error SystemExit
+      end
+
+      expect(output).to eq "Looks like there already exists a project in this directory. Are you in the correct folder?\n"
+    end
+  end
+
+  context "#update_project_config" do
+    it "writes the relevant project config to the current terrestrial.yml" do
+      allow(Dir).to receive(:home).and_return("/path/to/home")
+
+      Terrestrial::Config.load({
+        api_key: "fake_api_key",
+        user_id: 789,
+        random_value: "asd"
+      })
+
+      expect(Terrestrial::YamlHelper).to receive(:update)
+        .with("/path/to/home/.terrestrial", { api_key: "fake_api_key", user_id: 789 })
+
+      Terrestrial::Config.update_global_config
     end
   end
 end
