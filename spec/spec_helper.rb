@@ -23,12 +23,14 @@ def mock_project_config
   config = Hash.new
   yield config if block_given?
   allow(Terrestrial::Config).to receive(:_project_config).and_return(config)
+  allow(Terrestrial::Config).to receive(:update_project_config)
 end
 
 def mock_global_config
   config = Hash.new
   yield config if block_given?
   allow(Terrestrial::Config).to receive(:_global_config).and_return(config)
+  allow(Terrestrial::Config).to receive(:update_global_config)
 end
 
 def capture_stdout(&block)

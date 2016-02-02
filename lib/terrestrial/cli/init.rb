@@ -15,7 +15,6 @@ module Terrestrial
       private
 
       def update_config
-
         Terrestrial::Config.load({
           app_id: @response.body["data"]["id"],
           project_id: @project_id,

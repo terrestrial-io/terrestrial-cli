@@ -9,7 +9,6 @@ describe Terrestrial::Cli::Init do
     end
 
     allow(Terrestrial::Cli::DetectsProjectType).to receive(:run).and_return("ios")
-    allow(Terrestrial::Config).to receive(:update_project_config).with(any_args)
   end
 
   context "arguments" do
