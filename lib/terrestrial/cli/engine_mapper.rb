@@ -1,21 +1,21 @@
 module Terrestrial
-  module CLI
+  module Cli
     class EngineMapper
 
       PARSERS = {
-        ".m" => Terrestrial::CLI::Parser::ObjC,
-        ".h" => Terrestrial::CLI::Parser::ObjC,
-        ".swift" => Terrestrial::CLI::Parser::Swift,
-        ".storyboard" => Terrestrial::CLI::Parser::Storyboard,
-        ".xml" => Terrestrial::CLI::Parser::AndroidXML
+        ".m" => Terrestrial::Cli::Parser::ObjC,
+        ".h" => Terrestrial::Cli::Parser::ObjC,
+        ".swift" => Terrestrial::Cli::Parser::Swift,
+        ".storyboard" => Terrestrial::Cli::Parser::Storyboard,
+        ".xml" => Terrestrial::Cli::Parser::AndroidXML
       }
 
       EDITORS = {
-        ".m" => Terrestrial::CLI::Editor::ObjC,
-        ".h" => Terrestrial::CLI::Editor::ObjC,
-        ".swift" => Terrestrial::CLI::Editor::Swift,
-        ".storyboard" => Terrestrial::CLI::Editor::Storyboard,
-        ".xml" => Terrestrial::CLI::Editor::AndroidXML
+        ".m" => Terrestrial::Cli::Editor::ObjC,
+        ".h" => Terrestrial::Cli::Editor::ObjC,
+        ".swift" => Terrestrial::Cli::Editor::Swift,
+        ".storyboard" => Terrestrial::Cli::Editor::Storyboard,
+        ".xml" => Terrestrial::Cli::Editor::AndroidXML
       }
 
       def self.parser_for(extension)

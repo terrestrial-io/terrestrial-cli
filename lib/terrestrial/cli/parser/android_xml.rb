@@ -1,5 +1,5 @@
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
       class AndroidXML < BaseParser
         LANGUAGE = :android_xml

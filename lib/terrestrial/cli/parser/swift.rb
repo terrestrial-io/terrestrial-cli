@@ -1,5 +1,5 @@
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
       class Swift
         LANGUAGE = :swift
@@ -58,7 +58,6 @@ module Terrestrial
         def self.analyse_line_for_nslocalizedstrings(line, index, file_path)
           results = []
           line.scan(NSLOCALIZEDSTRING_REGEX).each do |match|
-           
               results.push(Bootstrapper::NewStringEntry.new.tap do |entry|
                 entry.language = LANGUAGE
                 entry.file = file_path
@@ -69,12 +68,9 @@ module Terrestrial
                # entry.variables = get_variable_names(line) if entry.type == "stringWithFormat"
 
               end)
-            
           end
           results
         end
-
-
 
         def self.find_api_calls(file)
           results = []

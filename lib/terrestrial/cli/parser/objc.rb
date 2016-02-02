@@ -1,5 +1,5 @@
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
       class ObjC < BaseParser
         LANGUAGE = :objc

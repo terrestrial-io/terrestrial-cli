@@ -1,7 +1,7 @@
 require 'rexml/document'
 
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
       class Storyboard
         attr_reader  :result

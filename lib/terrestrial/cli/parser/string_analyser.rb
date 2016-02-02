@@ -1,5 +1,5 @@
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
       class StringAnalyser
 
@@ -11,9 +11,6 @@ module Terrestrial
 
         def self.is_string_for_humans?(string, language, variables = [])
           result = self.new(string, language, variables).decide
-          if result == false
-            Log.info("\"#{string}\" for language #{language} with variables '#{variables.inspect}' was determined to not look human readable.", progname: "StringAnalyser")
-          end
           result
         end
         

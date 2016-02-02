@@ -1,5 +1,5 @@
 module Terrestrial
-  module CLI
+  module Cli
     module Editor
       class Swift < BaseEditor
 

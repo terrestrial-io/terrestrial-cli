@@ -6,7 +6,7 @@ require 'terrestrial/cli/parser/android_xml'
 require 'terrestrial/cli/parser/string_analyser'
 
 module Terrestrial
-  module CLI
+  module Cli
     module Parser
 
       def self.find_strings(file)
