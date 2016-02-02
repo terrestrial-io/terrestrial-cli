@@ -1,0 +1,22 @@
+
+/* No comment provided by engineer. */
+"Username"="nom d'utilisateur";
+
+"Main_Profile"="profil de %1$@";
+
+"multiline" = "
+Hello %@,
+
+Check out %@.
+
+Sincerely,
+
+%@";
+
+/* 
+ this is a
+ multiline
+ comment 
+*/
+"multiline_comment" = "Hello %@,
+you";

@@ -37,7 +37,6 @@ module Terrestrial
           results
         end
 
-
         def self.find_nslocalizedstrings(file)
           results = []
           if is_view_controller?(file)

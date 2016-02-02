@@ -1,6 +1,7 @@
 require 'terrestrial/cli/parser/base_parser'
 require 'terrestrial/cli/parser/objc'
 require 'terrestrial/cli/parser/swift'
+require 'terrestrial/cli/parser/ios_strings'
 require 'terrestrial/cli/parser/storyboard'
 require 'terrestrial/cli/parser/android_xml'
 require 'terrestrial/cli/parser/string_analyser'
