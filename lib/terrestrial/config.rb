@@ -15,17 +15,18 @@ module Terrestrial
       PROJECT_KEYS = [
         :app_id,
         :project_id,
-        :platform
+        :platform,
+        :translation_files
       ]
 
       def load(opts = {})
         values.merge!(opts)
       end
 
-      def load!(opts = {})
+      def load!(opts = {}, project: true, global: true)
         load(opts)
-        _load_project_config
-        _load_global_config
+        _load_project_config if project
+        _load_global_config if global
       end
 
       def [](key)
@@ -40,11 +41,11 @@ module Terrestrial
         "<Terrestrial::Config config=#{values.inspect}>"
       end
 
-      def update_project_config(fail_if_exists: false)
-        if fail_if_exists && File.exists?(_project_config_path)
-          abort "Looks like there already exists a project in this directory. Are you in the correct folder?"
-        end
+      def project_config_exist?
+        File.exists?(_project_config_path)
+      end
 
+      def update_project_config(fail_if_exists: false)
         YamlHelper.update(_project_config_path, values.select {|key, val| PROJECT_KEYS.include? key })
       end
 

@@ -70,27 +70,6 @@ describe Terrestrial::Config do
 
       Terrestrial::Config.update_project_config
     end
-
-    it "can be said to warn if the file already exists" do
-      allow(Dir).to receive(:pwd).and_return("/path/to/project")
-
-      Terrestrial::Config.load({
-        app_id: 123,
-        project_id: 456,
-        platform: "ios",
-        random_value: "asd"
-      })
-
-      expect(File).to receive(:exists?).and_return(true)
-
-      output = capture_stderr do
-        expect {
-          Terrestrial::Config.update_project_config(fail_if_exists: true)
-        }.to raise_error SystemExit
-      end
-
-      expect(output).to eq "Looks like there already exists a project in this directory. Are you in the correct folder?\n"
-    end
   end
 
   context "#update_project_config" do

@@ -15,6 +15,15 @@ OptionParser.new do |opts|
   opts.on("--api-key [string]", "Set and store api key") do |key|
     options[:api_key] = key
   end
+
+  opts.on("--project-id [integer]", "Set the app's project id") do |id|
+    options[:project_id] = id.to_i
+  end
+
+  opts.on_tail("--version", "Show version") do
+    puts "Terrestrial CLI: #{Terrestrial::Cli::VERSION}"
+    exit
+  end
 end.parse!
 
 command = ARGV[0]

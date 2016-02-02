@@ -7,7 +7,6 @@ module Terrestrial
       end
 
       def self.run(opts = {})
-        Config.load!
         self.new(opts).run
       end
 

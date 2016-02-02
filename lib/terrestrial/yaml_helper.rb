@@ -6,8 +6,7 @@ module Terrestrial
       
       def write(path, content)
         File.open(path, 'w+') do |f| 
-          puts content.inspect
-          YAML.dump(stringfy_keys(content), f) 
+          f.write stringfy_keys(content).to_yaml
         end 
       end
 
@@ -16,7 +15,12 @@ module Terrestrial
       end
 
       def update(path, new_content)
-        old_content = read(path)
+        begin
+          old_content = read(path)
+        rescue Errno::ENOENT
+          old_content = {}
+        end
+
         write(path, old_content.merge(new_content))
       end
 
