@@ -33,22 +33,24 @@ def mock_global_config
   allow(Terrestrial::Config).to receive(:update_global_config)
 end
 
-def capture_stdout(&block)
+def capture_stdout(proc_object = nil, &block)
   original_stdout = $stdout
   $stdout = fake = StringIO.new
   begin
-    yield
+    proc_object.call unless proc_object.nil?
+    yield if block_given?
   ensure
     $stdout = original_stdout
   end
   fake.string
 end
 
-def capture_stderr(&block)
+def capture_stderr(proc_object = nil, &block)
   original_stderr = $stderr
   $stderr = fake = StringIO.new
   begin
-    yield
+    proc_object.call unless proc_object.nil?
+    yield if block_given?
   ensure
     $stderr = original_stderr
   end

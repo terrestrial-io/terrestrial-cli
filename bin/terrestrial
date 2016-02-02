@@ -8,7 +8,8 @@ OptionParser.new do |opts|
   opts.banner = "Usage: terrestrial <command> <options>"
   opts.separator  ""
   opts.separator  "Commands"
-  opts.separator  "     init: Initialize your project with Terrestrial"
+  opts.separator  "     init: Initialize your project with Terrestrial."
+  opts.separator  "     scan: Search your project for string changes since your last push."
   opts.separator  ""
   opts.separator  "Options"
 

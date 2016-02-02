@@ -15,6 +15,11 @@ describe Terrestrial::Cli::Init do
     Terrestrial::Config.load!
   end
 
+  around(:each) do |example|
+    # Don't want to see confirmation messages
+    capture_stdout example.to_proc
+  end
+
   context "arguments" do
     it "raises an error without an API key" do
       output = capture_stderr do
