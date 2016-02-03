@@ -4,11 +4,11 @@ module Terrestrial
       class IosStrings
         class << self
 
-          def find_api_calls(file)
-            entries = parse_file(File.read file)
+          def find_api_calls(path)
+            entries = parse_file read_file_with_correct_encoding(path)
             entries.each do |entry|
               entry[:type] = "localizable.strings"
-              entry[:file] = file
+              entry[:file] = path
             end
           end
 
@@ -17,7 +17,6 @@ module Terrestrial
           def parse_file(contents)
             results = []
             
-            expecting_comment = false
             multiline_comment = false
             expecting_string  = false
             multiline_string  = false
@@ -26,10 +25,10 @@ module Terrestrial
             contents.split("\n").each do |line|
               line = line.rstrip
 
-              if !multiline_string && !multiline_comment && !expecting_comment && !expecting_string && line == ""
+              if !multiline_string && !multiline_comment && !expecting_string && line == ""
                 # Just empty line between entries
                 next 
-              elsif !expecting_comment && line.start_with?("\"") && !line.end_with?(";")
+              elsif line.start_with?("\"") && !line.end_with?(";")
                 # Start multiline string"
                 current_id = line.split("=").map(&:strip)[0][1..-1][0..-2]
                 current_string = line.split("=").map(&:strip)[1][1..-1]
@@ -68,7 +67,7 @@ module Terrestrial
                 current[:context] << (tmp_content.empty? ? "" : "\n#{tmp_content}")
                 multiline_comment = false
                 expecting_string  = true
-              elsif !expecting_string && !expecting_comment && line.start_with?("/*") && line.end_with?("*/")
+              elsif !expecting_string && line.start_with?("/*") && line.end_with?("*/")
                 # Single line comment
                 current[:context] = line[2..-1][0..-3].strip
                 expecting_string = true
@@ -81,7 +80,7 @@ module Terrestrial
                 expecting_string = false
                 results << current
                 current = {}
-              elsif !expecting_string && !expecting_comment && line.end_with?(";")
+              elsif !expecting_string && line.end_with?(";")
                 # id/string without comment first
                 current_id, current_string = get_string_and_id(line)
                 current[:id] = current_id
@@ -97,9 +96,37 @@ module Terrestrial
           end
 
           def get_string_and_id(line)
-            id = line.split("=").map(&:strip)[0][1..-1][0..-2]
-            string = line.split("=").map(&:strip)[1][1..-1][0..-3]
+            id = line.split("=").map(&:strip)[0].gsub("\"", "")
+            string = line.split("=").map(&:strip)[1].gsub("\"", "")[0..-2]
             [id, string]
+          end
+
+          def read_file_with_correct_encoding(path)
+            # Genstrings creates files with BOM UTF-16LE encoding.
+            # If we realise that we cannot operate on the content
+            # of the file assumin UTF-8, we try UTF-16!
+
+            content = File.read path
+            begin 
+              # Try performing an operation on the content
+              content.split("\n") 
+            rescue ArgumentError
+              # Failure! We think this is a UTF-16 file 
+
+              # Remove the byte order marker from the beginning
+              # of the file. We tried doing this with a simple
+              # sub! of \xFF\xFE, but we kept running into 
+              # more issues. We instead do it manually.
+              content = content.bytes[2..-1].pack('c*')
+
+              # Force UTF-16LE encoding as a setting (not actually
+              # changing any representations yet!), then encode from 
+              # that to UTF-8 again
+              content = content
+                          .force_encoding(Encoding::UTF_16LE)
+                          .encode!(Encoding::UTF_8)
+            end
+            content
           end
         end
       end

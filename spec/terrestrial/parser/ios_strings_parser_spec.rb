@@ -37,4 +37,20 @@ describe Terrestrial::Cli::Parser::IosStrings do
     expect(fourth[:context]).to eq "this is a\n multiline\n comment"
     expect(fourth[:file]).to eq "spec/fixtures/ExampleLocalizable.strings"
   end
+
+  it "can handle UTF-16 encoded files" do
+    # genstrings encodes all strings in UTF-16
+    file = "spec/fixtures/UTF_16_Localizable.strings"
+
+    results = Terrestrial::Cli::Parser::IosStrings.find_api_calls(file)
+    expect(results.count).to eq 1
+
+
+    first = results[0]
+    expect(first[:string]).to eq "Choose Audio Track"
+    expect(first[:id]).to eq "CHOOSE_AUDIO_TRACK"
+    expect(first[:type]).to eq "localizable.strings"
+    expect(first[:context]).to eq nil
+    expect(first[:file]).to eq "spec/fixtures/UTF_16_Localizable.strings"
+  end
 end
