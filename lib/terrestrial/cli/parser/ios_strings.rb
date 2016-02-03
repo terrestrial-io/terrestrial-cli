@@ -24,8 +24,9 @@ module Terrestrial
 
             contents.split("\n").each do |line|
               line = line.rstrip
+              line = remove_comments(line) unless multiline_string
 
-              if !multiline_string && !multiline_comment && !expecting_string && line == ""
+              if !multiline_string && !multiline_comment && line == ""
                 # Just empty line between entries
                 next 
               elsif line.start_with?("\"") && !line.end_with?(";")
@@ -127,6 +128,11 @@ module Terrestrial
                           .encode!(Encoding::UTF_8)
             end
             content
+          end
+
+          def remove_comments(line)
+            line = line.split("//")[0] || ""
+            line.rstrip
           end
         end
       end

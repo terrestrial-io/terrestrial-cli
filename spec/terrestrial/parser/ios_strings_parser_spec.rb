@@ -53,4 +53,39 @@ describe Terrestrial::Cli::Parser::IosStrings do
     expect(first[:context]).to eq nil
     expect(first[:file]).to eq "spec/fixtures/UTF_16_Localizable.strings"
   end
+
+  it "ignores double slash comments" do
+    file = "spec/fixtures/ExampleWithCommentsLocalizable.strings"
+
+    results = Terrestrial::Cli::Parser::IosStrings.find_api_calls(file)
+    expect(results.count).to eq 4
+    
+    first = results[0]
+    expect(first[:string]).to eq "%d Failed Passcode Attempts"
+    expect(first[:id]).to eq "PASSCODE_FAILED_FORMAT"
+    expect(first[:type]).to eq "localizable.strings"
+    expect(first[:context]).to eq nil
+    expect(first[:file]).to eq "spec/fixtures/ExampleWithCommentsLocalizable.strings"
+
+    second = results[1]
+    expect(second[:string]).to eq "Settings"
+    expect(second[:id]).to eq "Settings"
+    expect(second[:type]).to eq "localizable.strings"
+    expect(second[:context]).to eq nil
+    expect(second[:file]).to eq "spec/fixtures/ExampleWithCommentsLocalizable.strings"
+
+    third = results[2]
+    expect(third[:string]).to eq "Empty Media Library"
+    expect(third[:id]).to eq "EMPTY_LIBRARY"
+    expect(third[:type]).to eq "localizable.strings"
+    expect(third[:context]).to eq "Comment for the Engineer!"
+    expect(third[:file]).to eq "spec/fixtures/ExampleWithCommentsLocalizable.strings"
+
+    fourth = results[3]
+    expect(fourth[:string]).to eq "For playback\ndo not panick"
+    expect(fourth[:id]).to eq "EMPTY_LIBRARY_LONG"
+    expect(fourth[:type]).to eq "localizable.strings"
+    expect(fourth[:context]).to eq nil
+    expect(fourth[:file]).to eq "spec/fixtures/ExampleWithCommentsLocalizable.strings"
+  end
 end

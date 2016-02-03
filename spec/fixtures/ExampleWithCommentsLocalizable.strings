@@ -1,0 +1,15 @@
+"PASSCODE_FAILED_FORMAT"="%d Failed Passcode Attempts";
+
+"Settings"="Settings"; // plain text key to keep compatibility with InAppSettingsKit's upstream
+
+// more 
+// comments
+
+/* Comment for the Engineer! */
+// Random stuff
+"EMPTY_LIBRARY"="Empty Media Library";
+
+"EMPTY_LIBRARY_LONG"="For playback
+do not panick";
+
+// Some comments
