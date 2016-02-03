@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Terrestrial
   module Cli
     module Editor

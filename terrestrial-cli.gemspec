@@ -27,6 +27,8 @@ Gem::Specification.new do |spec|
   spec.executables   << 'terrestrial'
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency 'terminal-table', '~> 1.5.2'
+
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "byebug"

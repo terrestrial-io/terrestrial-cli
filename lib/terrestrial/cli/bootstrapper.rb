@@ -6,7 +6,6 @@ module Terrestrial
         FileFinder.find(directory, EngineMapper::PARSERS.keys)
           .flat_map {|file| Parser.find_strings(file) }
           .select   {|entry| entry.string != "" }
-          .each     {|entry| Log.info("Parser found #{entry.inspect}", progname: "Bootstrapper") }
           .select   {|entry| Parser::StringAnalyser.is_string_for_humans?(entry.string, entry.language, entry.variables) }
           .sort_by  {|entry| entry.string }
       end
@@ -15,7 +14,6 @@ module Terrestrial
         FileFinder.find(directory,[".m",".mm",".swift"])
           .flat_map {|file| Parser.find_nslocalizedstrings(file) }
           .select   {|entry| entry.string != "" }
-          .each     {|entry| Log.info("Parser found #{entry.inspect}", progname: "Bootstrapper") }
           .sort_by  {|entry| entry.string }
       end
 

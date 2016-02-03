@@ -17,6 +17,7 @@ module Terrestrial
 
         if @response.success?
           update_config
+          # TODO: Improve instructions
           puts "** App added to project! **"
           puts "Run 'terrestrial flight' to find strings in your project"
           puts "When you have marked your strings for translation, push"
