@@ -1,13 +1,11 @@
+require 'terrestrial/cli/flight/ios_workflow.rb'
+require 'terrestrial/cli/flight/table_workflow.rb'
 require 'terminal-table'
 require 'pathname'
 
 module Terrestrial
   module Cli
     class Flight < Command
-
-      LOCAL_CONFIG = {
-        strings_per_page: 10
-      }
 
       def run
         Config.load!
@@ -18,20 +16,23 @@ module Terrestrial
         if Config[:translation_files].any?
           abort_already_run_flight
         end
+
         puts "- Finding untranslated human readable strings..."
-        show_wait_spinner do
+        TerminalUI.show_spinner do
           find_new_strings
         end
 
         puts "------------------------------------"
         puts "- Found #{strings.count} strings"
         puts ""
-        print_strings_in_tables
+        exclusions = TableWorkflow.new(strings).run
         puts "------------------------------------"
         puts "- Done!"
-        
+
+        strings.exclude_occurences(exclusions)
+
         if Config[:platform] == "ios"
-          ios_workflow
+          IosWorkflow.new(strings).run
         elsif Config[:platform] == 'android'
           android_workflow
         end
@@ -44,81 +45,6 @@ module Terrestrial
         puts "-  e.g.  <string name='my_name'>My string!</string>  =>  <string terrestrial='true' name='my_name'>My string</string>"
       end
 
-      def ios_workflow
-        puts "- Terrestrial will add #{strings.length - exclusions.length} strings to your base Localizable.strings."
-        puts ""
-        puts "------------------------------------"
-        puts "-- Source Code" 
-        puts "- Would you like Terrestrial to also modify the selected strings in your"
-        puts "- source code to call .translated?"
-        puts "-   e.g.  \"This is my string\"  =>  \"This is my string\".translated"
-        puts ""
-        puts "y/n?"
-
-        command = STDIN.gets.chomp
-        if command == "y"
-          strings.exclude_occurences(exclusions)
-
-          lproj_folder = ""
-          show_wait_spinner do
-            Editor.prepare_files(strings.all_occurences)
-            initalize_localizable_strings_files
-          end
-
-          puts "------------------------------------"
-          puts "-- Done!"
-          puts "- Created Base.lproj in #{lproj_folder}."
-          puts "- Remember to include the new localization files in your project!"
-        end
-      end
-
-      def initalize_localizable_strings_files
-        folder_name = Pathname.new(Dir[Config[:directory] + "/*.xcodeproj"].first).basename(".*").to_s
-        base_lproj_path = FileUtils.mkdir_p(Config[:directory] + "/#{folder_name}" + "/Base.lproj").first
-
-        File.open(base_lproj_path + "/Localizable.strings", "a+") do |f|
-          formatter = DotStringsFormatter.new(strings)
-
-          f.write "// Created by Terrestrial (#{Time.now.to_s})"
-          f.write "\n\n"
-          f.write formatter.format
-        end
-      end
-
-      def print_strings_in_tables
-        i = 0
-
-        strings.all_occurences.each_slice(LOCAL_CONFIG[:strings_per_page]).with_index do |five_strings, index|
-          puts "Page #{index + 1} of #{(strings.all_occurences.count / LOCAL_CONFIG[:strings_per_page].to_f).ceil}"
-
-          table = create_string_table(five_strings, i)
-          i += LOCAL_CONFIG[:strings_per_page]
-          puts table
-          puts table_instructions
-          puts ""
-
-          command = STDIN.gets.chomp
-          if command == 'q'
-            abort "Aborting..."
-          else
-            begin
-              exclusions.concat(command.split(",").map(&:to_i))
-            rescue
-              abort "Couldn't process that command :( Aborting..."
-            end
-          end
-        end
-      end
-
-      def create_string_table(strings, i)
-        Terminal::Table.new(headings: ['Index', 'String', 'File']) do |t|
-          strings.each_with_index do |string, tmp_index|
-            t.add_row([i, string.string, file_name_with_line_number(string)])
-            t.add_separator unless tmp_index == (strings.length - 1) || i == (strings.length - 1)
-            i += 1
-          end
-        end
-      end
 
       def find_new_strings
         @strings = Bootstrapper.find_new_strings(Config[:directory])
@@ -134,35 +60,6 @@ module Terrestrial
 
       def strings
         @strings
-      end
-
-      def exclusions
-        @exclusions ||= []
-      end
-
-      def show_wait_spinner(fps=10)
-        chars = %w[| / - \\]
-        delay = 1.0/fps
-        iter = 0
-        spinner = Thread.new do
-          while iter do  # Keep spinning until told otherwise
-            print chars[(iter+=1) % chars.length]
-            sleep delay
-            print "\b"
-          end
-        end
-        yield.tap do     # After yielding to the block, save the return value
-          iter = false   # Tell the thread to exit, cleaning up after itself…
-          spinner.join   # …and wait for it to do so.
-        end              # Use the block's return value as the method's
-      end
-
-      def table_instructions
-        "-- Instructions --\n" +
-        "- To exclude any strings from translation, type the index of each string.\n" +
-        "-   e.g. 1,2,4\n" +
-        "------------------\n" +
-        "Any Exclusions? (press return to continue or 'q' to quit at any time)\n"
       end
 
       def abort_not_initialized
@@ -189,6 +86,7 @@ module Terrestrial
           puts "For more information, visit http://docs.terrestrial.io/, or jump on our Slack via https://terrestrial-slack.herokuapp.com/"
           abort
         else 
+          # TODO
         end
       end
     end
