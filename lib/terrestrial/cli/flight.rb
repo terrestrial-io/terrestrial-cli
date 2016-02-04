@@ -1,4 +1,5 @@
 require 'terminal-table'
+require 'pathname'
 
 module Terrestrial
   module Cli
@@ -56,15 +57,32 @@ module Terrestrial
 
         command = STDIN.gets.chomp
         if command == "y"
-          entries = strings.all_occurences.reject.with_index {|s, i| exclusions.include? i }
+          strings.exclude_occurences(exclusions)
 
+          lproj_folder = ""
           show_wait_spinner do
-            Editor.prepare_files(entries)
+            Editor.prepare_files(strings.all_occurences)
+            initalize_localizable_strings_files
           end
 
-          puts "- Done!"
+          puts "------------------------------------"
+          puts "-- Done!"
+          puts "- Created Base.lproj in #{lproj_folder}."
+          puts "- Remember to include the new localization files in your project!"
         end
-        puts "Totally creating the Localizable.strings files now..."
+      end
+
+      def initalize_localizable_strings_files
+        folder_name = Pathname.new(Dir[Config[:directory] + "/*.xcodeproj"].first).basename(".*").to_s
+        base_lproj_path = FileUtils.mkdir_p(Config[:directory] + "/#{folder_name}" + "/Base.lproj").first
+
+        File.open(base_lproj_path + "/Localizable.strings", "a+") do |f|
+          formatter = DotStringsFormatter.new(strings)
+
+          f.write "// Created by Terrestrial (#{Time.now.to_s})"
+          f.write "\n\n"
+          f.write formatter.format
+        end
       end
 
       def print_strings_in_tables

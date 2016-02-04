@@ -52,7 +52,7 @@ module Terrestrial
           end
         end
 
-        def exclude_occurence(indexes)
+        def exclude_occurences(indexes)
           entries.each do |entry|
             entry.occurences.delete_if {|occurence| indexes.include? occurence.result_index }
           end

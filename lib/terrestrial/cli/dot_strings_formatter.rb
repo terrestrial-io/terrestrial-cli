@@ -19,9 +19,11 @@ module Terrestrial
       private
 
       def file_comments(entry)
-        ["// Files:"] + entry.occurences.map  do |occ|
-          "// - #{occ.file}"
-        end
+        ["// Files:"] + 
+          entry
+            .occurences
+            .uniq {|occ| occ.file }
+            .map  {|occ| "// - #{occ.file}" }
       end
 
       def id_and_string(entry)

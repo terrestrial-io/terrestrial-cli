@@ -131,14 +131,14 @@ describe Terrestrial::Cli::Bootstrapper do
     expect(result.all_occurences[1].result_index).to eq 1
     expect(result.all_occurences[2].result_index).to eq 2
 
-    result.exclude_occurence([0])
+    result.exclude_occurences([0])
     expect(result.all_occurences[0].result_index).to eq 1
     expect(result.all_occurences[1].result_index).to eq 2
 
-    result.exclude_occurence([2])
+    result.exclude_occurences([2])
     expect(result.all_occurences[0].result_index).to eq 1
 
-    result.exclude_occurence([1])
+    result.exclude_occurences([1])
     expect(result.all_occurences.count).to eq 0
   end
 
