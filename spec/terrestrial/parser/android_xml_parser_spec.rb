@@ -9,17 +9,17 @@ describe Terrestrial::Cli::Parser::AndroidXML do
   it "finds strings from resource files" do
     results = Terrestrial::Cli::Parser::AndroidXML.find_strings(example_file("strings.xml"))
 
-    expect(results[0].string).to eq "AndroidTest"
-    expect(results[0].identifier).to eq "app_name"
-    expect(results[0].type).to eq "android-strings-xml"
-    expect(results[0].file).to eq example_file("strings.xml")
-    expect(results[0].line_number).to be_nil
+    expect(results[0]["string"]).to eq "AndroidTest"
+    expect(results[0]["identifier"]).to eq "app_name"
+    expect(results[0]["type"]).to eq "android-strings-xml"
+    expect(results[0]["file"]).to eq example_file("strings.xml")
+    expect(results[0]["line_number"]).to be_nil
 
-    expect(results[1].string).to eq "Settings"
-    expect(results[1].identifier).to eq "action_settings"
+    expect(results[1]["string"]).to eq "Settings"
+    expect(results[1]["identifier"]).to eq "action_settings"
 
-    expect(results[2].string).to eq "Hello, world! Lol"
-    expect(results[2].identifier).to eq "main_screen_text"
+    expect(results[2]["string"]).to eq "Hello, world! Lol"
+    expect(results[2]["identifier"]).to eq "main_screen_text"
   end
 
   it "finds strings marked for Terrestrial and includes their IDs" do
@@ -43,11 +43,11 @@ describe Terrestrial::Cli::Parser::AndroidXML do
   it "if the string element contains HTML, it will parse the HTML as a string" do
     results = Terrestrial::Cli::Parser::AndroidXML.find_strings(example_file("html_in_strings.xml"))
 
-    expect(results[0].string).to eq "<a href=\"https://www.google.pl/\">Google</a>"
-    expect(results[0].identifier).to eq "html_yo"
-    expect(results[0].type).to eq "android-strings-xml"
-    expect(results[0].file).to eq example_file("html_in_strings.xml")
-    expect(results[0].line_number).to be_nil
+    expect(results[0]["string"]).to eq "<a href=\"https://www.google.pl/\">Google</a>"
+    expect(results[0]["identifier"]).to eq "html_yo"
+    expect(results[0]["type"]).to eq "android-strings-xml"
+    expect(results[0]["file"]).to eq example_file("html_in_strings.xml")
+    expect(results[0]["line_number"]).to be_nil
   end
 
   xit "notices if strings have variables" do

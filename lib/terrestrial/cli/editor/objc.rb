@@ -15,17 +15,9 @@ module Terrestrial
 
         def self.do_edit_string(line, entry)
           string = entry.string
-          if entry.variables.any?
-            replacement = add_position_identifiers_to_variables(entry.string)
-          else
-            replacement = entry.string
-          end
+          replacement = add_position_identifiers_to_variables(entry.string)
 
-          if entry.context
-            line.gsub(a_string_not_followed_by_translated(string), "[@\"#{replacement}\" translatedWithContext: @\"#{entry.context}\"]")
-          else
-            line.gsub(a_string_not_followed_by_translated(string), "@\"#{replacement}\".translated")
-          end
+          line.gsub(a_string_not_followed_by_translated(string), "@\"#{replacement}\".translated")
         end
 
         def self.add_import(file)

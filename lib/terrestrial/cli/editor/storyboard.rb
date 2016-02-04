@@ -27,7 +27,6 @@ module Terrestrial
           @type    = entry.type
           @string  = entry.string
           @id      = entry.metadata["storyboard_element_id"]
-          @context = entry.context
 
           @document = REXML::Document.new(File.new(@path))
         end
@@ -44,7 +43,7 @@ module Terrestrial
           #
           # Keep an eye out for it to see if reproducible
 
-          node.add(create_element(context: @context))
+          node.add(create_element)
           refresh_document(node)
           save_document
         end
@@ -81,16 +80,12 @@ module Terrestrial
           Parser::Storyboard::Engine::TEXT_ATTRIBUTE[type]
         end
 
-        def create_element(boolean: true, context: "")
+        def create_element
           REXML::Element.new("userDefinedRuntimeAttributes")
                 .add_element("userDefinedRuntimeAttribute", 
                      {"type" => "boolean", 
                       "keyPath" => "Terrestrial", 
-                      "value" => boolean ? "YES" : "NO" }).parent
-                .add_element("userDefinedRuntimeAttribute", 
-                     {"type" => "string", 
-                      "keyPath" => "contextInfo", 
-                      "value" => context || ""}).parent
+                      "value" => "YES" }).parent
         end
       end
     end

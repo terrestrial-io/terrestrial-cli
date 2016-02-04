@@ -3,15 +3,14 @@ module Terrestrial
     module Parser
       class StringAnalyser
 
-        def initialize(string, language, variables = [])
-          @string    = string
-          @variables = variables
-          @language  = language
+        def self.is_string_for_humans?(string, language, variables = [])
+          self.new(string, language, variables).decide
         end
 
-        def self.is_string_for_humans?(string, language, variables = [])
-          result = self.new(string, language, variables).decide
-          result
+        def initialize(string, language, variables = [])
+          @string    = string
+          @variables = variables || [] # TODO: Find out what was passing in variables as nil instead of empty array
+          @language  = language
         end
         
         def decide

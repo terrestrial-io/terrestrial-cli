@@ -9,11 +9,10 @@ describe Terrestrial::Cli::Parser::Swift do
 
       result = SwiftParser.analyse_line_for_strings(line, index, file_name)
       expect(result.count).to eq 1
-      expect(result[0].class).to eq Terrestrial::Cli::Bootstrapper::NewStringEntry
-      expect(result[0].string).to eq "Create your first routine below."
-      expect(result[0].line_number).to eq 4
-      expect(result[0].file).to eq "foo.swift"
-      expect(result[0].type).to eq "unknown"
+      expect(result[0]["string"]).to eq "Create your first routine below."
+      expect(result[0]["line_number"]).to eq 4
+      expect(result[0]["file"]).to eq "foo.swift"
+      expect(result[0]["type"]).to eq "unknown"
     end
     
     it "finds strings with variables in it" do
@@ -23,12 +22,11 @@ describe Terrestrial::Cli::Parser::Swift do
 
       result = SwiftParser.analyse_line_for_strings(line, index, file_name)
       expect(result.count).to eq 1
-      expect(result[0].class).to eq Terrestrial::Cli::Bootstrapper::NewStringEntry
-      expect(result[0].string).to eq "Hello \\(something) \\(world)."
-      expect(result[0].line_number).to eq 4
-      expect(result[0].file).to eq "foo.swift"
-      expect(result[0].type).to eq "stringWithFormat"
-      # expect(result[0].variables).to eq ["something", "world"]
+      expect(result[0]["string"]).to eq "Hello \\(something) \\(world)."
+      expect(result[0]["line_number"]).to eq 4
+      expect(result[0]["file"]).to eq "foo.swift"
+      expect(result[0]["type"]).to eq "stringWithFormat"
+      # expect(result[0]["variables"]).to eq ["something", "world"]
     end
   end
 

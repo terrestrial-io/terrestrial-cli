@@ -4,6 +4,7 @@ module Terrestrial
   module Cli
     module Parser
       class Storyboard
+        LANGUAGE = :ios_storyboard
         attr_reader  :result
         
         include REXML
@@ -137,12 +138,13 @@ module Terrestrial
           defaults = { type: "storyboard" }
           values = defaults.merge(opts)
 
-          Bootstrapper::NewStringEntry.new.tap do |entry|
-            entry.file = @path
-            entry.string = string.to_s
-            entry.type = values.fetch(:type)
-            entry.line_number = nil
-            entry.metadata = {
+          Hash.new.tap do |entry|
+            entry["file"] = @path
+            entry["language"] = LANGUAGE
+            entry["string"] = string.to_s
+            entry["type"] = values.fetch(:type)
+            entry["line_number"] = nil
+            entry["metadata"] = {
               "storyboard_element_id" => values.fetch(:id)
             }
           end
@@ -151,6 +153,7 @@ module Terrestrial
         def build_registry_entry_hash(string, context, type)
           Hash.new.tap do |entry|
             entry["string"] = string.to_s
+            entry["language"] = LANGUAGE
             entry["context"] = context || ""
             entry["file"] = @path
             entry["line_number"] = nil

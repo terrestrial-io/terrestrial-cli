@@ -12,57 +12,57 @@ describe Terrestrial::Cli::Parser::Storyboard do
     end
 
     it "finds buttons that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-button"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-button"}
 
-      expect(results[0].string).to eq "Mah button"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "sjt-dy-pAp"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "Mah button"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "sjt-dy-pAp"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
 
     it "finds text fields that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-text-field"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-text-field"}
 
-      expect(results[0].string).to eq "Mah Placeholder"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "Dh9-Te-mVD"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "Mah Placeholder"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "Dh9-Te-mVD"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
 
     it "finds labels that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-label"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-label"}
 
-      expect(results[0].string).to eq "My Label Yo"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "0J5-M9-Yfl"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "My Label Yo"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "0J5-M9-Yfl"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
 
     it "finds navbar items that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-navbar-item"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-navbar-item"}
 
-      expect(results[0].string).to eq "Mah Title"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "OYp-Vl-mxW"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "Mah Title"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "OYp-Vl-mxW"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
 
     it "finds bar button items that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-bar-button-item"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-bar-button-item"}
 
-      expect(results[0].string).to eq "Mah Bar Item"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "Jrj-54-Su4"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "Mah Bar Item"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "Jrj-54-Su4"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
 
     it "finds text views that have not been market for terrestrial" do
-      results = parser.result.reject {|e| e.type != "storyboard-text-view"}
+      results = parser.result.reject {|e| e["type"] != "storyboard-text-view"}
 
-      expect(results[0].string).to eq "Le text view content"
-      expect(results[0].metadata["storyboard_element_id"]).to eq "2VW-lv-jgm"
-      expect(results[0].line_number).to be_nil
-      expect(results[0].file).to eq "spec/fixtures/Test.storyboard"
+      expect(results[0]["string"]).to eq "Le text view content"
+      expect(results[0]["metadata"]["storyboard_element_id"]).to eq "2VW-lv-jgm"
+      expect(results[0]["line_number"]).to be_nil
+      expect(results[0]["file"]).to eq "spec/fixtures/Test.storyboard"
     end
   end
   context "find strings" do

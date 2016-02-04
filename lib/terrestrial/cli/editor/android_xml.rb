@@ -15,7 +15,6 @@ module Terrestrial
           @path = entry.file
           @type = entry.type
           @string = entry.string
-          @context = entry.context
           @identifier = entry.identifier
 
           @document = REXML::Document.new(File.new(@path))
@@ -24,7 +23,6 @@ module Terrestrial
 
         def add_attributes
           node = find_node(@identifier)
-          node.add_attribute("context", @context) unless @context.nil? || @context.empty?
           node.add_attribute("terrestrial", true) 
           refresh_document(node)
           save_document

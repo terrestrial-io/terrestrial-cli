@@ -10,13 +10,12 @@ describe Terrestrial::Cli::Editor::AndroidXML do
   it "adds attributes to the strings.xml file" do
     duplicate_file_as("foo_strings.xml")
 
-    entry = Terrestrial::Cli::Bootstrapper::ApprovedStringEntry.new.tap do |e|
-      e.string = "Hello, world! Lol"
-      e.context = "Some context"
-      e.file = "spec/fixtures/android/foo_strings.xml"
-      e.type = "android-strings-xml"
-      e.identifier = "main_screen_text"
-    end
+    entry = double(:entry,
+      string: "Hello, world! Lol",
+      file: "spec/fixtures/android/foo_strings.xml",
+      type: "android-strings-xml",
+      identifier: "main_screen_text"
+    )
     
     Terrestrial::Cli::Editor::AndroidXML.find_and_edit_line(entry)
     
@@ -25,7 +24,7 @@ describe Terrestrial::Cli::Editor::AndroidXML do
     ).to eq '<resources>
   <string name="app_name">AndroidTest</string>
   <string name="action_settings">Settings</string>
-  <string context="Some context" name="main_screen_text" terrestrial="true">Hello, world! Lol</string>
+  <string name="main_screen_text" terrestrial="true">Hello, world! Lol</string>
 </resources>'
 
     `rm '#{Dir.pwd}/spec/fixtures/android/foo_strings.xml' || true`

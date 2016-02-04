@@ -21,18 +21,16 @@ module Terrestrial
           results
         end
 
-        
-
         def self.analyse_line_for_strings(line, index, file_path)
           results = []
           line.scan(STRING_REGEX).each do |match|
             unless looks_suspicious(line)
-              results.push(Bootstrapper::NewStringEntry.new.tap do |entry|
-                entry.language = LANGUAGE
-                entry.file = file_path
-                entry.line_number = index + 1
-                entry.string = match[0]
-                entry.type = guess_type(line)
+              results.push(Hash.new.tap do |entry|
+                entry["language"] = LANGUAGE
+                entry["file"] = file_path
+                entry["line_number"] = index + 1
+                entry["string"] = match[0]
+                entry["type"] = guess_type(line)
                # entry.variables = get_variable_names(line) if entry.type == "stringWithFormat"
 
               end)
@@ -40,42 +38,6 @@ module Terrestrial
           end
           results
         end
-
-        def self.find_nslocalizedstrings(file)
-          results = []
-          #if is_view_controller?(file)
-            File.readlines(file).each_with_index do |line, index|
-              
-              joining_array = analyse_line_for_nslocalizedstrings(line,index, file)
-              if !joining_array.empty? 
-              results.concat(joining_array)
-              break
-              end
-
-            end
-          #end
-          results
-        end
-
-        def self.analyse_line_for_nslocalizedstrings(line, index, file_path)
-          results = []
-          line.scan(NSLOCALIZEDSTRING_REGEX).each do |match|
-           
-              results.push(Bootstrapper::NewStringEntry.new.tap do |entry|
-                entry.language = LANGUAGE
-                entry.file = file_path
-                entry.line_number = index + 1
-                entry.string = match[0]
-                entry.type = guess_type(line)
-               # entry.variables = get_variable_names(line) if entry.type == "stringWithFormat"
-
-              end)
-            
-          end
-          results
-        end
-
-        
 
         def self.find_api_calls(file)
           results = []

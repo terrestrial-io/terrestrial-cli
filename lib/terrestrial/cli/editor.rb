@@ -14,21 +14,13 @@ module Terrestrial
           run
         end
 
-        def prepare_files_for_nslocalized(new_strings)
-          new(new_strings).run_nslocalized
-        end
-
         private
 
         def run
           wrap_string_with_sdk_functions
-          # add_imports
-        end
-
-        def run_nslocalized
           add_imports
         end
-        
+
         def add_imports
           @new_strings
             .uniq {|string| string.file}

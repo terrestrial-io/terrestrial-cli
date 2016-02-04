@@ -12,7 +12,10 @@ module Terrestrial
         Config.load!
 
         if !Config.project_config_exist?
-          abort_command
+          abort_not_initialized
+        end
+        if Config[:translation_files].any?
+          abort_already_run_flight
         end
         puts "- Finding untranslated human readable strings..."
         show_wait_spinner do
@@ -53,10 +56,10 @@ module Terrestrial
 
         command = STDIN.gets.chomp
         if command == "y"
-          approved_hash = strings.reject.with_index {|s, i| exclusions.include? i }.map(&:to_h)
+          entries = strings.all_occurences.reject.with_index {|s, i| exclusions.include? i }
 
           show_wait_spinner do
-            Editor.prepare_files Bootstrapper.build_approved_entries(approved_hash)
+            Editor.prepare_files(entries)
           end
 
           puts "- Done!"
@@ -67,8 +70,8 @@ module Terrestrial
       def print_strings_in_tables
         i = 0
 
-        strings.each_slice(LOCAL_CONFIG[:strings_per_page]).with_index do |five_strings, index|
-          puts "Page #{index + 1} of #{(strings.count / LOCAL_CONFIG[:strings_per_page].to_f).ceil}"
+        strings.all_occurences.each_slice(LOCAL_CONFIG[:strings_per_page]).with_index do |five_strings, index|
+          puts "Page #{index + 1} of #{(strings.all_occurences.count / LOCAL_CONFIG[:strings_per_page].to_f).ceil}"
 
           table = create_string_table(five_strings, i)
           i += LOCAL_CONFIG[:strings_per_page]
@@ -138,13 +141,13 @@ module Terrestrial
 
       def table_instructions
         "-- Instructions --\n" +
-        "- To exclude any strings from translation, type the index (in parenthesis) of each string.\n" +
+        "- To exclude any strings from translation, type the index of each string.\n" +
         "-   e.g. 1,2,4\n" +
         "------------------\n" +
         "Any Exclusions? (press return to continue or 'q' to quit at any time)\n"
       end
 
-      def abort_command
+      def abort_not_initialized
         puts "You should initialize your project before running flight."
         puts "It's simple! You can do this by running:"
         puts ""
@@ -152,6 +155,23 @@ module Terrestrial
         puts ""
         puts "You can find your Api Key and Project ID at https://mission.terrestrial.io"
         abort
+      end
+
+      def abort_already_run_flight
+        if Config[:platform] == "ios"
+          puts "Looks like you already have Localizable.strings files."
+          puts "'flight' scans your source code for human readable strings that have not been translated"
+          puts "and helps you quickstart your internaionalization process."
+          puts ""
+          puts "If you want to new strings into your .strings file, run 'terrestrial gen'. It will:"
+          puts "  1. Scan your source code for .translated and NSLocalizedString calls."
+          puts "  2. Determine if the strings already exist in Localizable.strings."
+          puts "  3. Append any new strings to your base Localizable.strings."
+          puts ""
+          puts "For more information, visit http://docs.terrestrial.io/, or jump on our Slack via https://terrestrial-slack.herokuapp.com/"
+          abort
+        else 
+        end
       end
     end
   end

@@ -35,14 +35,14 @@ module Terrestrial
         end
 
         def build_new_string_entry(node)
-          Bootstrapper::NewStringEntry.new.tap do |entry|
-            entry.language = LANGUAGE
-            entry.file = @path
-            entry.string = get_string_from_node(node)
-            entry.type = "android-strings-xml"
-            entry.line_number = nil
+          Hash.new.tap do |entry|
+            entry["language"] = LANGUAGE
+            entry["file"] = @path
+            entry["string"] = get_string_from_node(node)
+            entry["type"] = "android-strings-xml"
+            entry["line_number"] = nil
             # entry.variables = get_variables_from_string(entry.string)
-            entry.identifier = node.attributes["name"]
+            entry["identifier"] = node.attributes["name"]
           end
         end
 

@@ -18,11 +18,7 @@ module Terrestrial
           if entry.variables.any?
             edit_with_variables(line, entry)
           else
-            if entry.context
-              line.gsub(a_string_not_followed_by_translated(entry.string), "\"#{entry.string}\".translatedWithContext(\"#{entry.context}\")")
-            else
-              line.gsub(a_string_not_followed_by_translated(entry.string), "\"#{entry.string}\".translated")
-            end
+            line.gsub(a_string_not_followed_by_translated(entry.string), "\"#{entry.string}\".translated")
           end
         end
 
@@ -31,11 +27,7 @@ module Terrestrial
         end
 
         def self.build_string_with_variables(entry)
-          if entry.context
-            "NSString(format: \"#{make_variables_positional(entry.string)}\".translatedWithContext(\"#{entry.context}\"), #{entry.variables.join(", ")})"
-          else
-            "NSString(format: \"#{make_variables_positional(entry.string)}\".translated, #{entry.variables.join(", ")})"
-          end
+          "NSString(format: \"#{make_variables_positional(entry.string)}\".translated, #{entry.variables.join(", ")})"
         end
 
         def self.make_variables_positional(string)

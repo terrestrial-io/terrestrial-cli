@@ -15,11 +15,10 @@ describe Terrestrial::Cli::Parser::ObjC do
 
       result = Parser.analyse_line_for_strings(line, index, file_name)
       expect(result.count).to eq 1
-      expect(result[0].class).to eq Terrestrial::Cli::Bootstrapper::NewStringEntry
-      expect(result[0].string).to eq "This is a random string that should not show up"
-      expect(result[0].line_number).to eq 4
-      expect(result[0].file).to eq "foo.m"
-      expect(result[0].type).to eq "unknown"
+      expect(result[0]["string"]).to eq "This is a random string that should not show up"
+      expect(result[0]["line_number"]).to eq 4
+      expect(result[0]["file"]).to eq "foo.m"
+      expect(result[0]["type"]).to eq "unknown"
     end
 
     it "finds strings in a line and returns a NewStringEntry" do
@@ -29,12 +28,11 @@ describe Terrestrial::Cli::Parser::ObjC do
 
       result = Parser.analyse_line_for_strings(line, index, file_name)
       expect(result.count).to eq 1
-      expect(result[0].class).to eq Terrestrial::Cli::Bootstrapper::NewStringEntry
-      expect(result[0].string).to eq "That's a %@ %@ from %d!"
-      expect(result[0].line_number).to eq 4
-      expect(result[0].file).to eq "foo.m"
-      #expect(result[0].has_variables?).to eq true
-      #expect(result[0].variables).to eq ["make", "model", "year"]
+      expect(result[0]["string"]).to eq "That's a %@ %@ from %d!"
+      expect(result[0]["line_number"]).to eq 4
+      expect(result[0]["file"]).to eq "foo.m"
+      #expect(result[0]["has_variables"]?).to eq true
+      #expect(result[0]["variables"]).to eq ["make", "model", "year"]
     end
   end
 
