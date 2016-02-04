@@ -43,6 +43,7 @@ module Terrestrial
       def ios_workflow
         puts "- Terrestrial will add #{strings.length - exclusions.length} strings to your base Localizable.strings."
         puts ""
+        puts "------------------------------------"
         puts "-- Source Code" 
         puts "- Would you like Terrestrial to also modify the selected strings in your"
         puts "- source code to call .translated?"
@@ -57,6 +58,8 @@ module Terrestrial
           show_wait_spinner do
             Editor.prepare_files Bootstrapper.build_approved_entries(approved_hash)
           end
+
+          puts "- Done!"
         end
         puts "Totally creating the Localizable.strings files now..."
       end

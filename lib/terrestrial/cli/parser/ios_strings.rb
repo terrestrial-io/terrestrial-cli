@@ -7,8 +7,8 @@ module Terrestrial
           def find_api_calls(path)
             entries = parse_file read_file_with_correct_encoding(path)
             entries.each do |entry|
-              entry[:type] = "localizable.strings"
-              entry[:file] = path
+              entry["type"] = "localizable.strings"
+              entry["file"] = path
             end
           end
 
@@ -34,49 +34,49 @@ module Terrestrial
                 current_id = line.split("=").map(&:strip)[0][1..-1][0..-2]
                 current_string = line.split("=").map(&:strip)[1][1..-1]
 
-                current[:id] = current_id
-                current[:string] = current_string unless current_string.empty?
+                current["id"] = current_id
+                current["string"] = current_string unless current_string.empty?
                 multiline_string = true
               elsif multiline_string && !line.end_with?(";")
                 # Continuing multiline string
-                if current[:string].nil?
-                  current[:string] = line.lstrip
+                if current["string"].nil?
+                  current["string"] = line.lstrip
                 else
-                  current[:string] << "\n" + line
+                  current["string"] << "\n" + line
                 end
               elsif multiline_string && line.end_with?(";")
                 # Ending multiline string
-                current[:string] << "\n#{line[0..-3]}"
+                current["string"] << "\n#{line[0..-3]}"
                 multiline_string = false
                 results << current
                 current = {}
               elsif !expecting_string && line.lstrip.start_with?("/*") && !line.end_with?("*/")
                 # Start multline comment
                 tmp_content = line[2..-1].strip
-                current[:context] = "\n" + tmp_content unless tmp_content.empty?
+                current["context"] = "\n" + tmp_content unless tmp_content.empty?
                 multiline_comment = true
               elsif multiline_comment && !line.end_with?("*/")
                 # Continuing multline comment
-                if current[:context].nil?
-                  current[:context] = line.lstrip
+                if current["context"].nil?
+                  current["context"] = line.lstrip
                 else
-                  current[:context] << "\n" + line
+                  current["context"] << "\n" + line
                 end
               elsif multiline_comment && line.end_with?("*/")
                 # Ending multline comment
                 tmp_content = line[0..-3].strip
-                current[:context] << (tmp_content.empty? ? "" : "\n#{tmp_content}")
+                current["context"] << (tmp_content.empty? ? "" : "\n#{tmp_content}")
                 multiline_comment = false
                 expecting_string  = true
               elsif !expecting_string && line.start_with?("/*") && line.end_with?("*/")
                 # Single line comment
-                current[:context] = line[2..-1][0..-3].strip
+                current["context"] = line[2..-1][0..-3].strip
                 expecting_string = true
               elsif expecting_string && line.end_with?(";")
                 # Single line id/string pair after a comment
                 current_id, current_string = get_string_and_id(line)
-                current[:id] = current_id
-                current[:string] = current_string
+                current["id"] = current_id
+                current["string"] = current_string
 
                 expecting_string = false
                 results << current
@@ -84,8 +84,8 @@ module Terrestrial
               elsif !expecting_string && line.end_with?(";")
                 # id/string without comment first
                 current_id, current_string = get_string_and_id(line)
-                current[:id] = current_id
-                current[:string] = current_string
+                current["id"] = current_id
+                current["string"] = current_string
 
                 results << current
                 current = {}
