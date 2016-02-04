@@ -146,8 +146,23 @@ describe Terrestrial::Cli::Bootstrapper do
     entry = Terrestrial::Cli::Bootstrapper::Entry.new("this is short")
     expect(entry.identifier).to eq "THIS_IS_SHORT"
 
+
     entry = Terrestrial::Cli::Bootstrapper::Entry.new("this is a string from which the ID will be generated")
     expect(entry.identifier).to eq "THIS_IS_A_STRING_FROM_WHICH_THE_ID_WILL_BE"
+
+    # Gets rid of swift variables, other variables, and non-alphanumeric chars
+    hash = {
+        "string" => "this has &!1023 \\(variables) and %1$@ weird chars",
+        "file" => "/path/to/file_1.storyboard",
+        "language" => :swift,
+        "type" => "some type?",
+        "line_number" => nil,
+        "metadata" => {
+          "storyboard_element_id" => "random-id"
+        }
+      }
+    entry = Terrestrial::Cli::Bootstrapper::Entry.from_hash(hash, 0)
+    expect(entry.identifier).to eq "THIS_HAS_1023_AND_WEIRD_CHARS"
   end
 
   it "knows how to make swift variables in strings positional" do

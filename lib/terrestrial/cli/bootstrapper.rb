@@ -66,11 +66,11 @@ module Terrestrial
           entries[i]
         end
 
-        private
-
         def entries
           @entries ||= []
         end
+
+        private
 
         def next_result_index
           @result_index += 1 
@@ -88,6 +88,14 @@ module Terrestrial
           @occurences = occurences
         end
 
+        def formatted_string
+          if occurences.any? {|occ| occ.language == :swift}
+            VariableNormalizer.run(string, swift: true)
+          else
+            VariableNormalizer.run(string)
+          end
+        end
+
         def self.from_hash(hash, index)
           string    = hash.fetch("string")
           occurence = Occurence.from_hash(hash, index)
@@ -96,7 +104,9 @@ module Terrestrial
         end
 
         def identifier
-          string
+          formatted_string
+            .gsub(/%\d\$@/, '')
+            .gsub(/[^0-9a-z ]/i, '')
             .split(" ")[0..(MAX_IDENTIFIER_LENGTH - 1)]
             .join("_")
             .upcase
@@ -152,34 +162,11 @@ module Terrestrial
           end
 
           def formatted_string
-            result = string
             if language == :swift
-              # Account for Swift's \(interpolated) variables
-              result = format_swift_string(result)
+              VariableNormalizer.run(string, swift: true)
+            else
+              VariableNormalizer.run(string)
             end
-            format_string(result)
-          end
-
-          def format_swift_string(target_string)
-            formatted_string = target_string
-            regex = /\\\(.*?\)/
-            index = 1
-            while formatted_string.scan(regex).any?
-              formatted_string = formatted_string.sub(regex, "%#{index}$@")
-              index += 1
-            end
-            formatted_string
-          end
-
-          def format_string(target_string)
-            formatted_string = target_string
-            regex = /\%@/
-            index = 1
-            while formatted_string.scan(regex).any?
-              formatted_string = formatted_string.sub(regex, "%#{index}$@")
-              index += 1
-            end
-            formatted_string
           end
         end
       end
