@@ -3,10 +3,12 @@ require "terrestrial/cli/init"
 require "terrestrial/cli/flight"
 require "terrestrial/cli/scan"
 require "terrestrial/cli/ignite"
+require "terrestrial/cli/push"
 require "terrestrial/cli/photoshoot"
 require "terrestrial/cli/version"
 require "terrestrial/cli/variable_normalizer"
 require "terrestrial/cli/terminal_ui"
+require "terrestrial/cli/entry_collection_differ"
 require "terrestrial/cli/detects_project_type"
 require "terrestrial/cli/file_picker"
 require "terrestrial/cli/file_finder"
@@ -21,7 +23,7 @@ require "terrestrial/cli/string_registry"
 module Terrestrial
   module Cli
 
-    COMMANDS = ["init", "flight", "scan", "ignite", "photoshoot"]
+    COMMANDS = ["init", "flight", "push", "scan", "ignite", "photoshoot"]
 
     def self.start(command, opts = {}, args = [])
       case command
@@ -29,6 +31,8 @@ module Terrestrial
         init(opts)
       when "flight" 
         flight(opts)
+      when "push" 
+        push(opts)
       when "scan" 
         scan(opts)
       when "ignite" 
@@ -42,6 +46,10 @@ module Terrestrial
 
     def self.init(opts)
       Terrestrial::Cli::Init.run(opts)
+    end
+
+    def self.push(opts)
+      Terrestrial::Cli::Push.run(opts)
     end
 
     def self.flight(opts)

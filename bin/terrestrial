@@ -25,6 +25,10 @@ OptionParser.new do |opts|
     options[:project_id] = id.to_i
   end
 
+  opts.on("--verbose [boolean]", "Show additional information related to the command") do |bool|
+    options[:verbose] = true
+  end
+
   opts.on_tail("--version", "Show version") do
     puts "Terrestrial CLI: #{Terrestrial::Cli::VERSION}"
     exit
