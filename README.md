@@ -10,11 +10,11 @@ If you have any questions, join us on [Slack](https://terrestrial-slack.herokuap
 
 ## Usage
 
-To get started with your project, cd to your project repository and run
+To get started with your project, cd to your project directory and run
 
     $ terrestrial init --api-key <API KEY> --project-id <PROJECT ID>
 
-You can find your API key and the correct project ID by logging into [Terrestrial Misson Control](https://mission.terrestrial.io).	
+You can find your API key and the correct project ID by logging into [Terrestrial Mission Control](https://mission.terrestrial.io).	
 
 ### First time localizing
 
@@ -27,29 +27,13 @@ If you have not internationalized your app before, Terrestrial provides a tool f
 Flight will scan your source code and, using some clever heuristics, determine which strings can be shown to users. Terrestrial will list all the strings in terminal, and you are able to exclude any strings you wish not to internationalize.
 
 	... 
-	Page 5 of 6
+	Page 5 of 5
 	+-------+------------------------------+------------------------------------------------+
 	| Index | String                       | File                                           |
 	+-------+------------------------------+------------------------------------------------+
 	| 40    | Home                         | InspectionMadeEasy/LeftMenuViewController.m:96 |
 	+-------+------------------------------+------------------------------------------------+
 	| 41    | Home                         | InspectionMadeEasy/MainViewController.m:23     |
-	+-------+------------------------------+------------------------------------------------+
-	| 42    | History                      | InspectionMadeEasy/LeftMenuViewController.m:96 |
-	+-------+------------------------------+------------------------------------------------+
-	| 43    | Support                      | InspectionMadeEasy/LeftMenuViewController.m:96 |
-	+-------+------------------------------+------------------------------------------------+
-	| 44    | Log Out                      | InspectionMadeEasy/LeftMenuViewController.m:96 |
-	+-------+------------------------------+------------------------------------------------+
-	| 45    | Choose Inspection Checklist: | InspectionMadeEasy/MainViewController.m:55     |
-	+-------+------------------------------+------------------------------------------------+
-	| 46    | Cancel                       | InspectionMadeEasy/MainViewController.m:55     |
-	+-------+------------------------------+------------------------------------------------+
-	| 47    | Electrical                   | InspectionMadeEasy/MainViewController.m:57     |
-	+-------+------------------------------+------------------------------------------------+
-	| 48    | Pipeline                     | InspectionMadeEasy/MainViewController.m:58     |
-	+-------+------------------------------+------------------------------------------------+
-	| 49    | Mechanical                   | InspectionMadeEasy/MainViewController.m:59     |
 	+-------+------------------------------+------------------------------------------------+
 	-- Instructions --
 	- To exclude any strings from translation, type the index of each string.
@@ -74,9 +58,47 @@ After this, Terrestrial generates a **Base.lproj/Localizable.strings** file base
 
 ** Documentation coming soon **
 
+### Existing App
+
+If you have already translated your application, Terrestrial needs to know where to find your translation files. This is done via the **terrestrial.yml** file created when your project is initialized:
+
+	---
+	app_id: <app ID>
+	project_id: <project ID>
+	platform: <platform>
+	translation_files:
+	- /path/to
+	- /any/localization/files
+	
+Terrestrial will keep of the strings listed in the listed files.
+
+### Workflow
+
+As you add strings to you app, either in iOS's Localizable.strings or Android's strings.xml, you can track your changes with:
+
+	$ terrestrial scan
+	New Strings: 0
+	Removed Strings: 0
+	
+This will diff your local strings with the current strings stored in Terrestrial. You can see a breakdown of changes by running:
+
+	$ terrestrial scan --verbose
+	
+When you are ready to upload your local changes with Terrestrial for your translators to get to work, push your latest strings to Terrestrial:
+
+	$ terrestrial push
+
+We suggest running *push* as part of a standard build cycle.
+
+To get the latest translations for your app, run:
+
+	$ terrestrial pull
+
+This will update the necessary language files in your project automatically with updated translations.
+
 ### Testing
 
-Terretrial allows you to start your iOS simulator in a specified locale from the command line:
+Terrestrial allows you to start your iOS simulator in a specified locale from the command line:
 
 	$ terrestrial ignite es  # Starts the simulator in Spanish
 
