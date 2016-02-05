@@ -52,7 +52,7 @@ module Terrestrial
         private
 
         def find_node
-          REXML::XPath.first(@document, query_for(@type, id: @storyboard_id))
+          REXML::XPath.first(@document, query_for(@type, storyboard_id: @storyboard_id))
         end
 
         def refresh_document(node)

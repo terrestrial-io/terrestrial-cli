@@ -16,6 +16,7 @@ module Terrestrial
               Editor.prepare_files(results.all_occurences)
               initalize_localizable_strings_files
             end
+            add_file_to_config(lproj_folder)
             print_done_message(lproj_folder)
           end
         end
@@ -40,6 +41,16 @@ module Terrestrial
           base_lproj_path = FileUtils.mkdir_p(Config[:directory] + "/#{folder_name}" + "/Base.lproj").first
 
           base_lproj_path + "/Localizable.strings"
+        end
+
+        def add_file_to_config(path)
+          path_to_file = Pathname.new(path)
+          current_dir  = Pathname.new(Config[:directory])
+
+          Config.load({ translation_files: [
+            path_to_file.relative_path_from(current_dir).to_s
+          ]})
+          Config.update_project_config
         end
 
         def print_done_message(lproj_folder)
