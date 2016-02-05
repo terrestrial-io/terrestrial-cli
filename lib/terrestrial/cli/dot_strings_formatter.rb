@@ -6,6 +6,17 @@ module Terrestrial
         @entries = entries
       end
 
+      def format_foreign_translation
+        result = []
+        entries.each do |entry|
+          # Just ID and string needed for translation
+          # files. Extra metadata is found in Base.lproj.
+          result << "\"#{entry.identifier}\"=\"#{entry.string}\";"
+          result << ""
+        end
+        result.join("\n")
+      end
+
       def format
         result = []
         entries.each do |entry|
