@@ -1,6 +1,6 @@
 # Terrestrial::Cli
 
-Official Terrestrial command line tool. For more documentation visit the [official docs](https://docs.terrestrial.io/).
+Official Terrestrial command line tool. For more documentation visit the [official docs](http://docs.terrestrial.io/).
 
 If you have any questions, join us on [Slack](https://terrestrial-slack.herokuapp.com/)!
 
