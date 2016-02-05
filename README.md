@@ -11,7 +11,7 @@ To get started with your project, cd to your project repository and run
 
     $ terrestrial init --api-key <API KEY> --project-id <PROJECT ID>
 
-You can find your API key and the correct project ID by logging into [Terrestrial Misson Control](https://mission.terrestrial.io).
+You can find your API key and the correct project ID by logging into [Terrestrial Misson Control](https://mission.terrestrial.io).	
 
 ### First time localizing
 
@@ -62,7 +62,8 @@ After this, Terrestrial generates a **Base.lproj/Localizable.strings** file base
 	label.text = @"This is my string"  =>  label.text = @"THIS_IS_MY_STRING".translated
 	
 	# The ID is generated based on the original string.
-	# The .translated method is simple syntactic sugar over NSLocalizedString, and you are able to fall back to 	native iOS localization APIs if needed.
+	# The .translated method is simple syntactic sugar over NSLocalizedString, and you
+	# are able to fall back to native iOS localization APIs if needed.
 	
 **Note on Stroyboards:** Terrestrial allows you to easily use strings from your Localizable.strings files inside your Storyboards via IBInspectable properties. During the *flight* process, any strings in Storyboards will have the Terrestrial IBInspectable property turned on, and the string's ID included as a value in the properties. To see this in action, view the Attributed Inspector tab of a UI element in your Storyboards.
 	
