@@ -2,7 +2,7 @@
 
 Official Terrestrial command line tool. For more documentation visit the [official docs](https://docs.terrestrial.io/).
 
-If you have any questions, oin us on the official [Terrestrial Slack](https://terrestrial-slack.herokuapp.com/)!
+If you have any questions, join us on [Slack](https://terrestrial-slack.herokuapp.com/)!
 
 ## Installation
 
