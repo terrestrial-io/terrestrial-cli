@@ -81,6 +81,13 @@ n
 	$ terrestrial ignite es  # Starts the simulator in Spanish
 
 
+To upload screenshots, along with metadata of string positions and styles, run the photoshoot command:
+n
+	$ terrestrial photoshoot
+
+This will start the simulator and initialize the Terrestrial SDK in photoshoot mode. To upload screenshots to your web dashboard, just tap the injected screenshot button for each screen you wish to upload.
+
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/terrestrial-io/terrestrial-cli.
