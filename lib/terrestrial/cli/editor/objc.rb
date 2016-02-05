@@ -14,10 +14,7 @@ module Terrestrial
         end
 
         def self.do_edit_string(line, entry)
-          string = entry.string
-          replacement = add_position_identifiers_to_variables(entry.string)
-
-          line.gsub(a_string_not_followed_by_translated(string), "@\"#{replacement}\".translated")
+          line.gsub(a_string_not_followed_by_translated(entry.string), "@\"#{entry.identifier}\".translated")
         end
 
         def self.add_import(file)
@@ -62,16 +59,6 @@ module Terrestrial
 
 
           /@"#{string}"(?!(\.|\s)translated)/
-        end
-
-        def self.add_position_identifiers_to_variables(string)
-          regex = /\%@/
-          index = 1
-          while string.scan(regex).any?
-            string = string.sub(regex, "%#{index}$@")
-            index += 1
-          end
-          string
         end
       end
     end
