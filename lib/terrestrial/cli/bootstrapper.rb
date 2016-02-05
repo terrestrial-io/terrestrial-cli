@@ -122,9 +122,10 @@ module Terrestrial
 
         def as_separate_occurences
           occurences.map do |occurence|
-            entry_occurence = EntryOccurence.new(occurence)
-            entry_occurence.string = self.string
-            entry_occurence
+            EntryOccurence.new(occurence).tap do |occ|
+              occ.string     = self.string
+              occ.identifier = self.identifier
+            end
           end
         end
 
@@ -159,6 +160,14 @@ module Terrestrial
 
           def string
             @string
+          end
+
+          def identifier=(identifier)
+            @identifier = identifier
+          end
+
+          def identifier
+            @identifier
           end
 
           def formatted_string

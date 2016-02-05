@@ -15,10 +15,10 @@ module Terrestrial
         end
 
         def self.do_edit_string(line, entry)
-          if entry.variables.any?
+          if has_swift_variables? entry.string
             edit_with_variables(line, entry)
           else
-            line.gsub(a_string_not_followed_by_translated(entry.string), "\"#{entry.string}\".translated")
+            line.gsub(a_string_not_followed_by_translated(entry.string), "\"#{entry.identifier}\".translated")
           end
         end
 
@@ -27,17 +27,7 @@ module Terrestrial
         end
 
         def self.build_string_with_variables(entry)
-          "NSString(format: \"#{make_variables_positional(entry.string)}\".translated, #{entry.variables.join(", ")})"
-        end
-
-        def self.make_variables_positional(string)
-          regex = /\\\(.*?\)/
-          index = 1
-          while string.scan(regex).any?
-            string = string.sub(regex, "%#{index}$@")
-            index += 1
-          end
-          string
+          "NSString(format: \"#{entry.identifier}\".translated, #{swift_variables(entry.string).join(", ")})"
         end
 
         def self.add_import(file)
@@ -74,6 +64,13 @@ module Terrestrial
           end
         end
 
+        def self.has_swift_variables?(string)
+          swift_variables(string).any?
+        end
+
+        def self.swift_variables(string)
+          string.scan(Parser::Swift::VARIABLE_REGEX).map(&:first)
+        end
 
         def self.a_string_not_followed_by_translated(string)
           # Does not match:

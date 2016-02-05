@@ -77,6 +77,7 @@ describe Terrestrial::Cli::Bootstrapper do
 
     expect(result.all_occurences.length).to eq 2
     expect(result.all_occurences[0].string).to eq "mah string"
+    expect(result.all_occurences[0].identifier).to eq "MAH_STRING"
 
     expect(result.all_occurences[0].file).to eq "/path/to/file_1.storyboard"
     expect(result.all_occurences[0].type).to eq "some type?"

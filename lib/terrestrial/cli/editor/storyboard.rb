@@ -23,10 +23,11 @@ module Terrestrial
         end
 
         def initialize(entry)
-          @path    = entry.file
-          @type    = entry.type
-          @string  = entry.string
-          @id      = entry.metadata["storyboard_element_id"]
+          @path          = entry.file
+          @type          = entry.type
+          @string        = entry.string
+          @storyboard_id = entry.metadata["storyboard_element_id"]
+          @identifier    = entry.identifier
 
           @document = REXML::Document.new(File.new(@path))
         end
@@ -51,7 +52,7 @@ module Terrestrial
         private
 
         def find_node
-          REXML::XPath.first(@document, query_for(@type, id: @id))
+          REXML::XPath.first(@document, query_for(@type, id: @storyboard_id))
         end
 
         def refresh_document(node)
@@ -69,11 +70,11 @@ module Terrestrial
           end 
         end
 
-        def query_for(type, id: "")
+        def query_for(type, storyboard_id: "")
           # Find element of said type, with the ID, that does not
           # have a userDefinedRuntimeAttribute as a child
 
-          QUERIES[type] + "[@id=\"#{id}\" and not(userDefinedRuntimeAttributes)]]"
+          QUERIES[type] + "[@id=\"#{storyboard_id}\" and not(userDefinedRuntimeAttributes)]]"
         end
 
         def text_attribute(type)
@@ -86,6 +87,10 @@ module Terrestrial
                      {"type" => "boolean", 
                       "keyPath" => "Terrestrial", 
                       "value" => "YES" }).parent
+                .add_element("userDefinedRuntimeAttribute", 
+                     {"type" => "string", 
+                      "keyPath" => "Identifier", 
+                      "value" => @identifier }).parent
         end
       end
     end

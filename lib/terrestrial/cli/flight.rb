@@ -45,17 +45,8 @@ module Terrestrial
         puts "-  e.g.  <string name='my_name'>My string!</string>  =>  <string terrestrial='true' name='my_name'>My string</string>"
       end
 
-
       def find_new_strings
         @strings = Bootstrapper.find_new_strings(Config[:directory])
-      end
-
-      def file_name_with_line_number(string)
-        if string.line_number
-          "#{string.file}:#{string.line_number}"
-        else
-          string.file
-        end
       end
 
       def strings
