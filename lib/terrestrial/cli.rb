@@ -2,6 +2,7 @@ require "terrestrial/cli/command"
 require "terrestrial/cli/init"
 require "terrestrial/cli/flight"
 require "terrestrial/cli/ignite"
+require "terrestrial/cli/photoshoot"
 require "terrestrial/cli/version"
 require "terrestrial/cli/variable_normalizer"
 require "terrestrial/cli/terminal_ui"
@@ -17,7 +18,7 @@ require "terrestrial/cli/engine_mapper"
 module Terrestrial
   module Cli
 
-    COMMANDS = ["init", "flight", "ignite"]
+    COMMANDS = ["init", "flight", "ignite", "photoshoot"]
 
     def self.start(command, opts = {}, args = [])
       case command
@@ -27,6 +28,8 @@ module Terrestrial
         flight(opts)
       when "ignite" 
         ignite(opts, args)
+      when "photoshoot" 
+        photoshoot(opts)
       else
         abort "Unknown command #{command}"
       end
@@ -43,6 +46,10 @@ module Terrestrial
     def self.ignite(opts, args)
       opts["language"] = args[0]
       Terrestrial::Cli::Ignite.run(opts)
+    end
+
+    def self.photoshoot(opts)
+      Terrestrial::Cli::Photoshoot.run(opts)
     end
   end
 end

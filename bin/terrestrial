@@ -10,9 +10,10 @@ OptionParser.new do |opts|
   opts.banner = "Usage: terrestrial <command> <options>"
   opts.separator  ""
   opts.separator  "Commands"
-  opts.separator  "     init: Initialize your project with Terrestrial."
-  opts.separator  "     flight: Find human facing strings in your app that are not currently set for translation"
-  opts.separator  "     ignite: (iOS only) Start the simulator in a specific locale."
+  opts.separator  "        init             Initialize your project with Terrestrial."
+  opts.separator  "        flight           Find human facing strings in your app that are not currently set for translation"
+  opts.separator  "        ignite <locale>  (iOS only) Start the simulator in a specific locale."
+  opts.separator  "        photoshoot       (iOS only) Start the simulator in photoshoot mode."
   opts.separator  ""
   opts.separator  "Options"
 
