@@ -1,5 +1,8 @@
 # Terrestrial::Cli
 
+Official Terrestrial command line tool. For more documentation visit the [official docs](https://docs.terrestrial.io/).
+
+If you have any questions, oin us on the official [Terrestrial Slack](https://terrestrial-slack.herokuapp.com/)!
 
 ## Installation
 
@@ -71,6 +74,11 @@ After this, Terrestrial generates a **Base.lproj/Localizable.strings** file base
 
 ** Documentation coming soon **
 
+### Testing
+
+Terretrial allows you to start your iOS simulator in a specified locale from the command line:
+n
+	$ terrestrial ignite es  # Starts the simulator in Spanish
 
 
 ## Contributing
