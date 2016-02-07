@@ -6,6 +6,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-photoshoot-command")
 
         if Config[:platform] != "ios"
           abort "Unfortunately photoshoot mode is only supported on iOS at this time."

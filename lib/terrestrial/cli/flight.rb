@@ -9,6 +9,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-flight-command")
 
         if !Config.project_config_exist?
           abort_not_initialized

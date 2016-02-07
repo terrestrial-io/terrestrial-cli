@@ -7,6 +7,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-pull-command")
 
         fetch_translations
         languages.each do |lang, translations|

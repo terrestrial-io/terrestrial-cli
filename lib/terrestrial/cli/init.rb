@@ -5,6 +5,7 @@ module Terrestrial
       def run
         # Fail early if project already exists
         Config.load!({}, project: false)
+        MixpanelClient.track("cli-init-command")
         
         if Config.project_config_exist?
           abort "Looks like there already exists a project in this directory. Are you in the correct folder?"
@@ -17,13 +18,21 @@ module Terrestrial
 
         if @response.success?
           update_config
-          # TODO: Improve instructions
-          puts "** App added to project! **"
-          puts "Run 'terrestrial flight' to find strings in your project"
-          puts "When you have marked your strings for translation, push"
-          puts "then up with 'terrestrial push'"
+
+          puts "-- Success!"
+          puts "App platform added to project! You can view your app at https://mission.terrestrial.io/projects/#{Config[:project_id]}/apps/#{Config[:app_id]}"
+          puts ""
+          puts "-- What to do next?"
+          puts "If you have not internationalized your app, run 'terrestrial flight' to get started."
+          puts "If you have already extracted strings out of your app to resource files, make sure you add them to terrestrial.yml,"
+          puts "so that Terrestrial can keep track of them."
+          puts ""
+          puts "Next, run 'terrestrial scan' to see which strings Terrestrial is currently tracking."
+          puts "When you're ready to push up your strings, run 'terrestrial push'!"
+          puts ""
+          puts "For more information, see http://docs.terrestrial.io or jump on Slack at https://terrestrial-slack.herokuapp.com/ if you have any questions."
         else
-          puts "There was an error initializing your project."
+          puts "Oh snap. There was an error initializing your project."
           puts response.body.inspect
         end
       end

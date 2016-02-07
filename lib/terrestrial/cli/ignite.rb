@@ -6,6 +6,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-ignite-command")
         lang = opts["language"] 
 
         if Config[:platform] != "ios"

@@ -6,6 +6,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-scan-command")
 
         TerminalUI.show_spinner do
           @string_registry = StringRegistry.load

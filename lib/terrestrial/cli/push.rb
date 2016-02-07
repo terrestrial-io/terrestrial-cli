@@ -4,6 +4,7 @@ module Terrestrial
 
       def run
         Config.load!
+        MixpanelClient.track("cli-push-command")
         load_string_registry
 
         web_client.push(Config[:project_id], Config[:app_id], format_entries)
