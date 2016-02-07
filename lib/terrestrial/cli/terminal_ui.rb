@@ -11,6 +11,8 @@ module Terrestrial
             print chars[(iter+=1) % chars.length]
             sleep delay
             print "\b"
+            print " "
+            print "\b"
           end
         end
         yield.tap do     # After yielding to the block, save the return value

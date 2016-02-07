@@ -52,6 +52,10 @@ module Terrestrial
       def update_global_config
         YamlHelper.update(_global_config_path, values.select {|key, val| GLOBAL_KEYS.include? key })
       end
+      
+      def testing?
+        self[:api_url] != DEFAULTS[:api_url]
+      end
 
       private
 

@@ -59,7 +59,9 @@ module Terrestrial
       end
 
       def fetch_current_strings_from_web
-        web_client.get_app_strings(Config[:project_id], Config[:app_id]).body["data"]["strings"]
+        web_client
+          .get_app_strings(Config[:project_id], Config[:app_id])
+          .body["data"]["strings"]
       end
 
       def web_client

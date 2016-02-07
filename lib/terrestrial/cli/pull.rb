@@ -29,7 +29,7 @@ module Terrestrial
       end
 
       def update_translation_file(language, translations)
-        write_ios_translation_file(
+        write_translation_file(
           translation_file_path_for(language),
           translations
             .reject {|entry| entry["translation"].nil? || entry["translation"].empty? }
@@ -39,10 +39,9 @@ module Terrestrial
 
       def translation_file_path_for(language)
         if Config[:platform] == "ios"
-          path = ios_translation_file_path(language)
-
-        else
-          raise "Android not written yet."
+          ios_translation_file_path(language)
+        elsif Config[:platform] == "android"
+          android_translation_file_path(language) 
         end
       end
 
@@ -56,10 +55,25 @@ module Terrestrial
         folder + "/Localizable.strings"
       end
 
-      def write_ios_translation_file(path, translations)
+      def android_translation_file_path(language)
+        folder = Pathname.new(Config[:directory] + "/" + Config[:translation_files].first)
+          .parent
+          .parent
+          .to_s + "/values-#{format_language_code(language)}"
+
+        FileUtils.mkdir_p(folder)
+        folder + "/strings.xml"
+      end
+
+      def write_translation_file(path, translations)
         File.open(path, "w+") do |f|
-          f.write "// Updated by Terrestrial #{Time.now.to_s}\n\n"
-          f.write DotStringsFormatter.new(translations).format_foreign_translation
+          if Config[:platform] == "ios"
+            f.write "// Updated by Terrestrial #{Time.now.to_s}\n\n"
+            f.write DotStringsFormatter.new(translations).format_foreign_translation
+          elsif Config[:platform] == "android"
+            f.write "<!-- Updated by Terrestrial #{Time.now.to_s} -->\n\n"
+            f.write AndroidXmlFormatter.new(translations).format_foreign_translation
+          end
         end
       end
 

@@ -1,0 +1,4 @@
+<resources>
+    <string terrestrial='false' name="app_name">AndroidTest</string>
+    <string name="action_settings">Settings</string>
+</resources>

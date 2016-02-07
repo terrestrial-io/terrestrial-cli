@@ -17,6 +17,13 @@ module Terrestrial
         if Config[:translation_files].any?
           abort_already_run_flight
         end
+        if Config[:platform] != "ios"
+          puts "'flight' is not supported on Android."
+          puts "  iOS projects often just include strings in their source code instead of extracting them into resource files."
+          puts "  We created 'flight' to get iOS project up and running quicker."
+          puts "  'R.string' makes localization much easier :)"
+          abort 
+        end
 
         puts "- Finding untranslated human readable strings..."
         TerminalUI.show_spinner do
