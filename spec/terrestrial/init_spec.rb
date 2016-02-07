@@ -5,7 +5,10 @@ describe Terrestrial::Cli::Init do
     mock_project_config do |config|
       config[:directory] = "/path/to/project"
     end
-    mock_global_config
+    mock_global_config do |config|
+      config[:user_id] = 123
+      config[:api_url] = "localhost:3000"
+    end
     mock_web(:create_app) do |response|
       allow(response).to receive(:body).and_return({ "data" => Hash.new })
     end
