@@ -34,6 +34,24 @@ describe Terrestrial::Cli::Parser::ObjC do
       #expect(result[0]["has_variables"]?).to eq true
       #expect(result[0]["variables"]).to eq ["make", "model", "year"]
     end
+
+    it "ignores NSLocalizedString calls" do
+      line = 'NSString *message = NSLocalizedString(@"Username", nil);'
+      index = 3
+      file_name  = "foo.m"
+
+      result = Parser.analyse_line_for_strings(line, index, file_name)
+      expect(result).to eq []
+    end
+
+    it "ignores .translated calls" do
+      line = 'NSString *message = @"Username".translated;'
+      index = 3
+      file_name  = "foo.m"
+
+      result = Parser.analyse_line_for_strings(line, index, file_name)
+      expect(result).to eq []
+    end
   end
 
   context "#analyse_line_for_dot_translated" do

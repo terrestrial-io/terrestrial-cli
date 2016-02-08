@@ -7,9 +7,15 @@ module Terrestrial
         MixpanelClient.track("cli-push-command")
         load_string_registry
 
-        web_client.push(Config[:project_id], Config[:app_id], format_entries)
+        response = web_client.push(Config[:project_id], Config[:app_id], format_entries)
 
-        puts "Success!"
+        if response.success?
+          puts "Strings uploaded!"
+        else
+          puts "There was an error uploading your translations:"
+          puts response.inspect
+          puts "If the problem persists, contact us at team@terrestrial.io, or on Slack at https://terrestrial-slack.herokuapp.com/"
+        end
       end
 
       private

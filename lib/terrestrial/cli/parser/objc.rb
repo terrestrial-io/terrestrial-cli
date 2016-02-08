@@ -102,6 +102,8 @@ module Terrestrial
           without_strings.include?("DLog") || 
           without_strings.include?("NSLog") || 
           without_strings.include?("NSAssert") ||
+          without_strings.downcase.include?(".translated") || 
+          without_strings.downcase.include?("nslocalizedstring") || 
           without_strings.downcase.include?("uistoryboard") ||
           without_strings.downcase.include?("instantiateviewcontrollerwithidentifier") ||
           without_strings.downcase.include?("uiimage") ||
