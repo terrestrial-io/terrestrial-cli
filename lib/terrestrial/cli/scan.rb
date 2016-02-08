@@ -34,14 +34,14 @@ module Terrestrial
       def print_diff
         puts "--- Diff"
         puts "- New Strings"
-        print_table(new_strings)
+        puts create_table(new_strings)
         puts ""
         puts "- Removed Strings"
-        print_table(removed_strings)
+        puts create_table(removed_strings)
       end
 
-      def print_table(strings)
-        puts Terminal::Table.new(headings: ['Identifier', 'String', 'Comment']) do |t|
+      def create_table(strings)
+        Terminal::Table.new(headings: ['Identifier', 'String', 'Comment']) do |t|
           size = strings.count
           strings.each_with_index do |string, i|
             t.add_row([string["identifier"], string["string"], string["context"]])
@@ -60,8 +60,8 @@ module Terrestrial
 
       def fetch_current_strings_from_web
         web_client
-          .get_app_strings(Config[:project_id], Config[:app_id])
-          .body["data"]["strings"]
+        .get_app_strings(Config[:project_id], Config[:app_id])
+        .body["data"]["strings"]
       end
 
       def web_client

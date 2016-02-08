@@ -57,19 +57,17 @@ module Terrestrial
           puts "------------------------------------"
           puts "-- Done!"
           puts "- Created Base.lproj in #{lproj_folder}."
+          puts "- All strings in source substituted with IDs."
           puts "- Remember to include the new localization files in your project!"
         end
 
         def print_instructions
-          puts "- Terrestrial will add #{results.length} strings to your base Localizable.strings."
-          puts ""
           puts "------------------------------------"
           puts "-- Source Code" 
-          puts "- Would you like Terrestrial to also modify the selected strings in your"
-          puts "- source code to call .translated?"
+          puts "- Next Terrestrial will modify your source code to reference all the selected strings via IDs."
           puts "-   e.g.  \"This is my string\"  =>  \"This is my string\".translated"
           puts ""
-          puts "y/n?"
+          puts "Continue? y/n?"
         end
 
         def results

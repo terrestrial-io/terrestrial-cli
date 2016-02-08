@@ -188,7 +188,23 @@ describe Terrestrial::Cli::Bootstrapper do
         "file" => "/path/to/file_2.swift",
         "type" => "some other type",
         "line_number" => 12
+      },
+      {
+        "string" => "mah really really really really really really really really really long string three!",
+        "language" => :swift,
+        "file" => "/path/to/file_2.swift",
+        "type" => "some other type",
+        "line_number" => 12
+      },
+      {
+        "string" => "mah really really really really really really really really really long string three!",
+        "language" => :swift,
+        "file" => "/path/to/file_4.swift",
+        "type" => "some other type",
+        "line_number" => 15
       }
+
+
     ]
 
     result = Terrestrial::Cli::Bootstrapper::Result.new
@@ -196,10 +212,19 @@ describe Terrestrial::Cli::Bootstrapper do
       result.add(entry)
     end
 
-    first = result[0]
-    second = result[0]
+    expect(result.length).to eq 3
 
-    expect(first.identifier).to_not eq second.identifier
+    first = result[0]
+    second = result[1]
+    third = result[2]
+
+    expect(first.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY"
+    expect(second.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_2"
+    expect(third.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_3"
+
+    expect(first.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY"
+    expect(second.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_2"
+    expect(third.identifier).to eq "MAH_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_REALLY_3"
   end
 
   it "knows how to make swift variables in strings positional" do

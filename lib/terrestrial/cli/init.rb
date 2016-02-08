@@ -57,16 +57,16 @@ module Terrestrial
       private
       
       def select_translation_files
-        @tranlation_files = [] 
+        @translation_files = [] 
 
         files = find_platform_translation_files
         if files.any?
-          @tranlation_files = FilePicker.run(files, @platform)
+          @translation_files = FilePicker.run(files, @platform)
           
-          if @tranlation_files.count == 1
-            puts "Tracking #{@tranlation_files.count} file!"
+          if @translation_files.count == 1
+            puts "Tracking #{@translation_files.count} file!"
           else
-            puts "Tracking #{@tranlation_files.count} files!"
+            puts "Tracking #{@translation_files.count} files!"
           end
         end
       end
@@ -87,7 +87,7 @@ module Terrestrial
           project_id: @project_id,
           platform: @platform,
           api_key: @api_key,
-          translation_files: @tranlation_files
+          translation_files: @translation_files
         })
 
         Terrestrial::Config.update_global_config

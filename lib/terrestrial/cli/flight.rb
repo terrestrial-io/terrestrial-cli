@@ -31,27 +31,20 @@ module Terrestrial
         end
 
         puts "------------------------------------"
-        puts "- Found #{strings.count} strings"
+        puts "- Found #{strings.all_occurences.count} strings"
         puts ""
         exclusions = TableWorkflow.new(strings).run
-        puts "------------------------------------"
-        puts "- Done!"
-
         strings.exclude_occurences(exclusions)
 
-        if Config[:platform] == "ios"
-          IosWorkflow.new(strings).run
-        elsif Config[:platform] == 'android'
-          android_workflow
-        end
+        puts "------------------------------------"
+        puts "- Done!"
+        puts "- Terrestrial will add #{strings.all_occurences.count} strings to your base Localizable.strings."
+        puts ""
+
+        IosWorkflow.new(strings).run
       end
 
       private
-
-      def android_workflow
-        puts "- Terrestrial will annotate the selected strings in your strings.xml file:"
-        puts "-  e.g.  <string name='my_name'>My string!</string>  =>  <string terrestrial='true' name='my_name'>My string</string>"
-      end
 
       def find_new_strings
         @strings = Bootstrapper.find_new_strings(Config[:directory])
@@ -84,8 +77,6 @@ module Terrestrial
           puts ""
           puts "For more information, visit http://docs.terrestrial.io/, or jump on our Slack via https://terrestrial-slack.herokuapp.com/"
           abort
-        else 
-          # TODO
         end
       end
     end

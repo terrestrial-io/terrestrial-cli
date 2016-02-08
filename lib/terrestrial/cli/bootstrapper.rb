@@ -103,7 +103,7 @@ module Terrestrial
         end
 
         def identifier
-          IdGenerator.generate(formatted_string)
+          @identifier ||= IdGenerator.generate(formatted_string)
         end
 
         def string
@@ -197,11 +197,11 @@ module Terrestrial
           private
 
           def increment_id(id, attempt)
-            if id[-1] == (attempt - 1).to_s
-              id[-1] = attempt.to_s
+            if id[-1] == (attempt).to_s
+              id[-1] = (attempt + 1).to_s
               id
             else
-              id << "_#{attempt}"
+              id << "_#{attempt + 1}"
             end
           end
 

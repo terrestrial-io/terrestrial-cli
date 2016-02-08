@@ -12,8 +12,6 @@ module Terrestrial
         end
 
         def run
-          print_instructions
-
           exclusions = []
           i = 0
 
@@ -56,8 +54,9 @@ module Terrestrial
           puts "-- Instructions --"
           puts "- To exclude any strings from translation, type the index of each string."
           puts "-   e.g. 1,2,4"
+          puts "- Press return to continue, or 'q' to quit at any time."
           puts "------------------"
-          puts "Any Exclusions? (press return to continue or 'q' to quit at any time)"
+          puts "Any Exclusions?"
         end
 
         def file_name_with_line_number(string)
