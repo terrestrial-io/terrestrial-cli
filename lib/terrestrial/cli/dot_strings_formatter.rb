@@ -8,9 +8,18 @@ module Terrestrial
 
       def format_foreign_translation
         result = []
-        entries.each do |entry|
-          # Just ID and string needed for translation
-          # files. Extra metadata is found in Base.lproj.
+        entries.reject(&:placeholder?).each do |entry|
+          # just id and string needed for translation
+          # files. extra metadata is found in base.lproj.
+          result << "\"#{entry.identifier}\"=\"#{entry.string}\";"
+          result << ""
+        end
+
+        result.concat(placeholder_disclaimer)
+
+        entries.select(&:placeholder?).each do |entry|
+          # just id and string needed for translation
+          # files. extra metadata is found in base.lproj.
           result << "\"#{entry.identifier}\"=\"#{entry.string}\";"
           result << ""
         end
@@ -28,6 +37,14 @@ module Terrestrial
       end
 
       private
+
+      def placeholder_disclaimer
+        [
+          "// The following translations have been copied from the project base language because no translation was provided for them.",
+          "// iOS requires each Localizable.strings file to contain all keys used in the project. In order to provide proper fallbacks, Terrestrial includes missing translations in each translation resource file.", 
+          ""
+        ]
+      end
 
       def file_comments(entry)
         ["// Files:"] + 

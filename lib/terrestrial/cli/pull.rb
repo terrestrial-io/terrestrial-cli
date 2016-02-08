@@ -1,3 +1,4 @@
+require 'terrestrial/cli/pull/processes_translations'
 require 'pathname'
 require 'fileutils'
 
@@ -31,9 +32,7 @@ module Terrestrial
       def update_translation_file(language, translations)
         write_translation_file(
           translation_file_path_for(language),
-          translations
-            .reject {|entry| entry["translation"].nil? || entry["translation"].empty? }
-            .map    {|entry| TranslatedString.new(entry["translation"], entry["id"]) }
+          ProcessesTranslations.run(translations, string_registry.entries, Config[:platform])
         )
       end
 
@@ -99,11 +98,15 @@ module Terrestrial
         @response
       end
 
+      def string_registry
+        @string_registry ||= StringRegistry.load
+      end
+
       def web_client
         @web_client ||= Web.new
       end
 
-      class TranslatedString < Struct.new(:string, :identifier)
+      class TranslatedString < Struct.new(:string, :identifier, :placeholder?)
       end
     end
   end
