@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Terrestrial::Cli::Bootstrapper do
 
+  before(:each) do
+    Terrestrial::Cli::Bootstrapper::IdGenerator.reset!
+  end
+
   it "deduplicates strings" do
     entries = [
       {
@@ -77,7 +81,7 @@ describe Terrestrial::Cli::Bootstrapper do
 
     expect(result.all_occurences.length).to eq 2
     expect(result.all_occurences[0].string).to eq "mah string"
-    expect(result.all_occurences[0].identifier).to eq "MAH_STRING"
+    expect(result.all_occurences[0].identifier).to match /MAH_STRING/
 
     expect(result.all_occurences[0].file).to eq "/path/to/file_1.storyboard"
     expect(result.all_occurences[0].type).to eq "some type?"
@@ -164,6 +168,38 @@ describe Terrestrial::Cli::Bootstrapper do
       }
     entry = Terrestrial::Cli::Bootstrapper::Entry.from_hash(hash, 0)
     expect(entry.identifier).to eq "THIS_HAS_1023_AND_WEIRD_CHARS"
+  end
+
+  it "generates unique IDs every time even if the strings are long" do
+    entries = [
+      {
+        "string" => "mah really really really really really really really really really long string",
+        "file" => "/path/to/file_1.storyboard",
+        "language" => :ios_storyboard,
+        "type" => "some type?",
+        "line_number" => nil,
+        "metadata" => {
+          "storyboard_element_id" => "random-id"
+        }
+      },
+      {
+        "string" => "mah really really really really really really really really really long string two!",
+        "language" => :swift,
+        "file" => "/path/to/file_2.swift",
+        "type" => "some other type",
+        "line_number" => 12
+      }
+    ]
+
+    result = Terrestrial::Cli::Bootstrapper::Result.new
+    entries.each do |entry|
+      result.add(entry)
+    end
+
+    first = result[0]
+    second = result[0]
+
+    expect(first.identifier).to_not eq second.identifier
   end
 
   it "knows how to make swift variables in strings positional" do

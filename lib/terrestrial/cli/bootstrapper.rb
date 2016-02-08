@@ -81,7 +81,6 @@ module Terrestrial
 
     class Bootstrapper
       class Entry
-        MAX_IDENTIFIER_LENGTH = 10 # words
 
         def initialize(string, occurences = [])
           @string = string
@@ -104,12 +103,7 @@ module Terrestrial
         end
 
         def identifier
-          formatted_string
-            .gsub(/%\d\$@/, '')
-            .gsub(/[^0-9a-z ]/i, '')
-            .split(" ")[0..(MAX_IDENTIFIER_LENGTH - 1)]
-            .join("_")
-            .upcase
+          IdGenerator.generate(formatted_string)
         end
 
         def string
@@ -176,6 +170,56 @@ module Terrestrial
             else
               VariableNormalizer.run(string)
             end
+          end
+        end
+      end
+
+      class IdGenerator
+        MAX_IDENTIFIER_LENGTH = 10 # words
+
+        class << self
+          def generate(string)
+            id = do_generate_id(string)
+
+            attempt = 1
+            while id_already_exists?(id)
+              id = increment_id(id, attempt)
+              attempt += 1
+            end
+            id_history << id
+            id
+          end
+
+          def reset!
+            @history = []
+          end
+
+          private
+
+          def increment_id(id, attempt)
+            if id[-1] == (attempt - 1).to_s
+              id[-1] = attempt.to_s
+              id
+            else
+              id << "_#{attempt}"
+            end
+          end
+
+          def do_generate_id(string)
+            string
+              .gsub(/%\d\$@/, '')
+              .gsub(/[^0-9a-z ]/i, '')
+              .split(" ")[0..(MAX_IDENTIFIER_LENGTH - 1)]
+              .join("_")
+              .upcase
+          end
+
+          def id_already_exists?(id)
+            id_history.any? {|previous| previous == id }
+          end
+
+          def id_history
+            @history ||= []
           end
         end
       end
