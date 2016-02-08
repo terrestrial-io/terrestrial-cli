@@ -38,7 +38,8 @@ module Terrestrial
 
         def create_path_to_localization_files
           folder_name = Pathname.new(Dir[Config[:directory] + "/*.xcodeproj"].first).basename(".*").to_s
-          base_lproj_path = FileUtils.mkdir_p(Config[:directory] + "/#{folder_name}" + "/Base.lproj").first
+          project_language = detect_project_language(folder_name)
+          base_lproj_path = FileUtils.mkdir_p(Config[:directory] + "/#{folder_name}" + "/#{project_language}.lproj").first
 
           base_lproj_path + "/Localizable.strings"
         end
@@ -53,10 +54,15 @@ module Terrestrial
           Config.update_project_config
         end
 
+        def detect_project_language(folder)
+          info_plist = Dir[Config[:directory] + "/#{folder}/Info.plist"].first
+          `defaults read '#{info_plist}' CFBundleDevelopmentRegion`.gsub("\n", "").squeeze(" ")
+        end
+
         def print_done_message(lproj_folder)
           puts "------------------------------------"
           puts "-- Done!"
-          puts "- Created Base.lproj in #{lproj_folder}."
+          puts "- Localizable.strings created in #{lproj_folder}"
           puts "- All strings in source substituted with IDs."
           puts "- Remember to include the new localization files in your project!"
         end

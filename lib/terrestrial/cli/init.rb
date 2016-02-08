@@ -68,6 +68,8 @@ module Terrestrial
           else
             puts "Tracking #{@translation_files.count} files!"
           end
+        else
+          puts "Could not find any localization files to track."
         end
       end
 
