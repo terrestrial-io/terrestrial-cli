@@ -6,7 +6,6 @@ module Terrestrial
         # Fail early if project already exists
         Config.touch_global_config!
         Config.load!({}, project: false)
-        MixpanelClient.track("cli-init-command")
         
         if Config.project_config_exist?
           abort "Looks like there already exists a project in this directory. Are you in the correct folder?"
@@ -29,6 +28,7 @@ module Terrestrial
 
         if @response.success?
           update_config
+          MixpanelClient.track("cli-init-command")
 
           puts "-- Success!"
           puts "App platform added to project! You can view your app at https://mission.terrestrial.io/projects/#{Config[:project_id]}/apps/#{Config[:app_id]}"

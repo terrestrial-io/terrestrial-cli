@@ -10,8 +10,7 @@ module Terrestrial
         URL = "https://api.mixpanel.com/track"
 
         def track(event)
-          # If we're live
-          if Config[:api_url] == "https://mission.terrestrial.io"
+          unless Config.testing?
             `curl -silent -X POST #{URL}?data=#{format_event(event)} &`
           end
         end
