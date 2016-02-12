@@ -4,6 +4,7 @@ module Terrestrial
 
       def run
         # Fail early if project already exists
+        Config.touch_global_config!
         Config.load!({}, project: false)
         MixpanelClient.track("cli-init-command")
         

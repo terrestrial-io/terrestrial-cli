@@ -11,7 +11,13 @@ module Terrestrial
       end
 
       def read(path)
-        symbolize_keys(YAML.load_file(path))
+        result = YAML.load_file(path)
+
+        if result
+          symbolize_keys(result)
+        else
+          {}
+        end
       end
 
       def update(path, new_content)

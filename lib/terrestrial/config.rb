@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Terrestrial
   module Config
     class << self
@@ -55,6 +57,10 @@ module Terrestrial
       
       def testing?
         self[:api_url] != DEFAULTS[:api_url]
+      end
+
+      def touch_global_config!
+        FileUtils.touch(_global_config_path)
       end
 
       private
