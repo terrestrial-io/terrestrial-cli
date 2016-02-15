@@ -41,6 +41,8 @@ module Terrestrial
           ios_translation_file_path(language)
         elsif Config[:platform] == "android"
           android_translation_file_path(language) 
+        elsif Config[:platform] == "unity"
+          Config[:directory] + "/Assets/Terrestrial/" + human_readable_language_name(language) + ".xml"
         end
       end
 
@@ -72,6 +74,9 @@ module Terrestrial
           elsif Config[:platform] == "android"
             f.write "<!-- Updated by Terrestrial #{Time.now.to_s} -->\n\n"
             f.write AndroidXmlFormatter.new(translations).format_foreign_translation
+          elsif Config[:platform] == "unity"
+            f.write "<!-- Updated by Terrestrial #{Time.now.to_s} -->\n\n"
+            f.write UnityFormatter.new(translations).format_foreign_translation
           end
         end
       end
@@ -84,6 +89,10 @@ module Terrestrial
         else
           lang
         end
+      end
+
+      def human_readable_language_name(language_code)
+        LanguageName.new(language_code).human_readable_name
       end
 
       def fetch_translations

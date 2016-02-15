@@ -79,6 +79,8 @@ module Terrestrial
           Dir[Config[:directory] + "/**/*.strings"].map {|f| relative_path(f) }
         elsif @platform == "android"
           Dir[Config[:directory] + "/**/*/res/values/strings.xml"].map {|f| relative_path(f) }
+        elsif @platform == "unity"
+          [] # Not tracking files now
         else
           raise "Unknown platform #{@platform}"
         end

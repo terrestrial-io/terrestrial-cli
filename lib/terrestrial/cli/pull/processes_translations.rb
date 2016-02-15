@@ -18,9 +18,15 @@ module Terrestrial
             process_ios
           when "android"
             process_android
+          when "unity"
+            process_unity
           else
             raise "Unknown platform"
           end
+        end
+
+        def process_unity
+          process_android
         end
 
         def process_android

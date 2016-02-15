@@ -9,6 +9,8 @@ module Terrestrial
               DotStringsParser.parse_file(Config[:directory] + "/#{file}")
             elsif Config[:platform] == "android"
               AndroidXmlParser.parse_file(Config[:directory] + "/#{file}")
+            elsif Config[:platform] == "unity"
+              UnityParser.parse_file(Config[:directory] + "/#{file}")
             end
           rescue Errno::ENOENT
             abort "Could not find #{file}. If the file is no longer in your project, remove it from your tracked files in terrestrial.yml." 
