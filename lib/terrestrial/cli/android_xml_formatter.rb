@@ -28,7 +28,7 @@ module Terrestrial
                                             %Q[#@expanded_name="#{to_s().gsub(/"/, '&quot;')}"]
                                           end
                                       ^)
-        formatter = Printer.new(4) # See editor/printer
+        formatter = CustomPrinter.new(4) # See editor/printer
         formatter.compact = true
         formatter.write(document,"") + "\n"
       end

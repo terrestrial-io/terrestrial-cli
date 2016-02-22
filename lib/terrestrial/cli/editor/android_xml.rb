@@ -52,7 +52,7 @@ module Terrestrial
                                             end
                                         ^)
           File.open(@path, "w") do |f|
-            printer = Printer.new(2)
+            printer = CustomPrinter.new(2)
             printer.compact = true
             printer.width = 1000000
             printer.write(@document, f)
