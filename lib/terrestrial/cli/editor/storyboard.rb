@@ -48,7 +48,12 @@ module Terrestrial
           #
           # Keep an eye out for it to see if reproducible
 
-          node.add(create_element)
+          if node.nil?
+            puts "Warning: Was not able to find #{@type} with string '#{@string}' and ID '#{@storyboard_id}' in #{@path}."
+            puts "It will not be added to your Localizable.strings file automatically."
+          else
+            node.add(create_element)
+          end
           refresh_document(node)
         end
 
