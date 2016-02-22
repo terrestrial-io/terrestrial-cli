@@ -24,6 +24,7 @@ describe Terrestrial::Cli::Editor::Storyboard do
       editor = Terrestrial::Cli::Editor::Storyboard.new(entry) 
       editor.insert_attribute
       result = editor.format_document
+      puts result
 
       expect(result).to eq File.read('spec/fixtures/ExpectedFormattingTest.storyboard')
     end

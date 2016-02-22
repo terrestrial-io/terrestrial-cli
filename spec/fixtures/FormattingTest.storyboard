@@ -19,7 +19,9 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pZ6-a6-9bd" customClass="KLLabel">
                                <rect key="frame" x="20" y="312" width="560" height="72"/>
-                               <string key="text">This is some really important text that needs to be preserved in its correct order. No whitespace should be added before or after the string. </string>
+                               <string key="text">This is some really important text that needs to be preserved in its correct order. No whitespace should be added before or after the string. 
+
+                                I also have whitespace that needs to be preserved</string>
                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                <nil key="highlightedColor"/>

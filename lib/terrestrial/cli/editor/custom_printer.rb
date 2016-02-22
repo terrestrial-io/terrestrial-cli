@@ -34,8 +34,6 @@ class CustomPrinter < REXML::Formatters::Pretty
   #
   def write_text( node, output )
     s = node.to_s()
-    s.gsub!(/\s/,' ')
-    s.squeeze!(" ")
 
     #The Pretty formatter code mistakenly used 80 instead of the @width variable
     #s = wrap(s, 80-@level)
