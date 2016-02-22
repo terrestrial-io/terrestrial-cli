@@ -50,7 +50,7 @@ module Terrestrial
           puts "For more information, see http://docs.terrestrial.io or jump on Slack at https://terrestrial-slack.herokuapp.com/ if you have any questions."
         else
           puts "Oh snap. There was an error initializing your project."
-          puts response.body.inspect
+          puts @response.body.inspect
           abort
         end
       end

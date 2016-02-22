@@ -37,7 +37,13 @@ module Terrestrial
         end
 
         def insert_attribute
+          puts "DEBUG: Finding node #{@storyboard_id} in file #{@path}"
           node = find_node
+
+          if node.nil?
+            puts "DEBUG: Was not able to find node!"
+            abort "Node was not found."
+          end
 
           # TODO, There was a case when "node" was nil in this point, after
           # trying to find it by type + ID.

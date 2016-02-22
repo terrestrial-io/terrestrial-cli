@@ -3,6 +3,8 @@
 require 'terrestrial'
 require 'optparse'
 
+puts "DEBUG: This is a debug version of Terrestrial."
+
 command = ARGV[0]
 options = {}
 
