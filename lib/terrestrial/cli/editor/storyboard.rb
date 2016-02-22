@@ -24,26 +24,24 @@ module Terrestrial
 
         def initialize(entry)
           @path          = entry.file
+          @document      = REXML::Document.new(File.new(@path))
+
           @type          = entry.type
           @string        = entry.string
           @storyboard_id = entry.metadata["storyboard_element_id"]
           @identifier    = entry.identifier
 
-          @document = REXML::Document.new(File.new(@path))
+          set_document_to_double_quotes
         end
 
         def self.insert_runtime_attribute(entry)
-          self.new(entry).insert_attribute
+          editor = self.new(entry)
+          editor.insert_attribute
+          editor.save_document
         end
 
         def insert_attribute
-          puts "DEBUG: Finding node #{@storyboard_id} in file #{@path}"
-          node = find_node
-
-          if node.nil?
-            puts "DEBUG: Was not able to find node!"
-            abort "Node was not found."
-          end
+          node = find_node(@storyboard_id, @type)
 
           # TODO, There was a case when "node" was nil in this point, after
           # trying to find it by type + ID.
@@ -52,39 +50,48 @@ module Terrestrial
 
           node.add(create_element)
           refresh_document(node)
-          save_document
+        end
+
+        def find_node(id, type)
+          REXML::XPath.first(@document, query_for(type, storyboard_id: id))
+        end
+
+        def save_document
+          File.open(@path, "w") do |f|
+            f.write format_document
+          end 
+        end
+
+        def format_document
+          printer = CustomPrinter.new(4)
+          printer.width = 1000
+          printer.compact = true
+          printer.write(@document.root, "")
         end
 
         private
-
-        def find_node
-          REXML::XPath.first(@document, query_for(@type, storyboard_id: @storyboard_id))
-        end
 
         def refresh_document(node)
           # This is a bit ridiculous, but necessary because
           # &*£(*$)£@*$!£ REXML
           
           @document = REXML::Document.new(node.document.to_s)
-        end
-
-        def save_document
-          File.open(@path, "w") do |f|
-            printer = Printer.new(2)
-            printer.width = 1000
-            printer.write(@document, f)
-          end 
+          set_document_to_double_quotes
         end
 
         def query_for(type, storyboard_id: "")
           # Find element of said type, with the ID, that does not
           # have a userDefinedRuntimeAttribute as a child
 
-          QUERIES[type] + "[@id=\"#{storyboard_id}\" and not(userDefinedRuntimeAttributes)]]"
+          QUERIES[type] + "[@id=\"#{storyboard_id}\" and not(userDefinedRuntimeAttributes[@Terrestrial])]"
         end
 
         def text_attribute(type)
           Parser::Storyboard::Engine::TEXT_ATTRIBUTE[type]
+        end
+
+        def set_document_to_double_quotes
+          @document.context[:attribute_quote] = :quote
         end
 
         def create_element

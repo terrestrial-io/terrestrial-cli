@@ -56,6 +56,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button buttonType='roundedRect' contentHorizontalAlignment='center' contentMode='scaleToFill' contentVerticalAlignment='center' customClass='KLButtonWithImage' id='QRf-Gx-4Go' lineBreakMode='middleTruncation' opaque='NO' translatesAutoresizingMaskIntoConstraints='NO'>
+                              <rect height='45' key='frame' width='280' x='20' y='7'/>
+                              <constraints>
+                                <constraint constant='45' firstAttribute='height' id='mW9-Jl-hri'/>
+                              </constraints>
+                              <state key='normal' title='Add this Device'>
+                                <color alpha='1' colorSpace='calibratedWhite' key='titleColor' white='1'/>
+                                <color alpha='1' colorSpace='calibratedWhite' key='titleShadowColor' white='0.5'/>
+                              </state>
+                              <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute keyPath='leftIcon' type='image' value='plus_icon'/>
+                              </userDefinedRuntimeAttributes>
+                              <connections>
+                                <segue destination='2fh-tQ-fhC' id='UHZ-yn-6dg' kind='push'/>
+                              </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
