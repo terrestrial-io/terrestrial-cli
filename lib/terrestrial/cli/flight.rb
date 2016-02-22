@@ -68,12 +68,7 @@ module Terrestrial
         if Config[:platform] == "ios"
           puts "Looks like you already have Localizable.strings files."
           puts "'flight' scans your source code for human readable strings that have not been translated"
-          puts "and helps you quickstart your internaionalization process."
-          puts ""
-          puts "If you want to new strings into your .strings file, run 'terrestrial gen'. It will:"
-          puts "  1. Scan your source code for .translated and NSLocalizedString calls."
-          puts "  2. Determine if the strings already exist in Localizable.strings."
-          puts "  3. Append any new strings to your base Localizable.strings."
+          puts "and helps you quickstart your internaionalization process and is works with unlocalized projects only."
           puts ""
           puts "For more information, visit http://docs.terrestrial.io/, or jump on our Slack via https://terrestrial-slack.herokuapp.com/"
           abort
