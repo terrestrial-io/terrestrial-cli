@@ -5,12 +5,9 @@ module Terrestrial
       def self.load
         entries = Config[:translation_files].flat_map do |file|
           begin
-            if Config[:platform] == "ios"
-              DotStringsParser.parse_file(Config[:directory] + "/#{file}")
-            elsif Config[:platform] == "android"
-              AndroidXmlParser.parse_file(Config[:directory] + "/#{file}")
-            elsif Config[:platform] == "unity"
-              UnityParser.parse_file(Config[:directory] + "/#{file}")
+            entries = find_entries(file)
+            entries.each do |entry|
+              entry["file"] = file # Ensure paths are relative
             end
           rescue Errno::ENOENT
             abort "Could not find #{file}. If the file is no longer in your project, remove it from your tracked files in terrestrial.yml." 
@@ -26,6 +23,16 @@ module Terrestrial
 
       def entries
         @entries
+      end
+
+      def self.find_entries(file)
+        if Config[:platform] == "ios"
+          DotStringsParser.parse_file(Config[:directory] + "/#{file}")
+        elsif Config[:platform] == "android"
+          AndroidXmlParser.parse_file(Config[:directory] + "/#{file}")
+        elsif Config[:platform] == "unity"
+          UnityParser.parse_file(Config[:directory] + "/#{file}")
+        end
       end
     end
   end

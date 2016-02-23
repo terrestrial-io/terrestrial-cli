@@ -32,7 +32,16 @@ module Terrestrial
       end
 
       def [](key)
-        values[key]
+        if key == :translation_files
+          # Translation files should be handed back as an
+          # empty array if it is nil.
+          # This can happen when users remove all translation
+          # files from terrestrial.yml instead of making 
+          # it a valid YAML empty list
+          values[:translation_files] || []
+        else
+          values[key]
+        end
       end
 
       def reset!

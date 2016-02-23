@@ -19,16 +19,17 @@ module Terrestrial
       private
 
       def print_results
-        puts "New Strings: #{new_strings.count}"
-        puts "Removed Strings: #{removed_strings.count}"
-
         if opts[:verbose]
           print_diff
+          puts ""
         else
           if rand(10) == 1 # Show hint ~10% of the time
             puts "(Hint: add --verbose to the 'scan' command to view the diff of local and remote strings.)"
           end
         end
+
+        puts "New Strings: #{new_strings.count}"
+        puts "Removed Strings: #{removed_strings.count}"
       end
 
       def print_diff
