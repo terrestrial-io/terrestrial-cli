@@ -56,7 +56,14 @@ module Terrestrial
 
         def detect_project_language(folder)
           info_plist = Dir[Config[:directory] + "/#{folder}/Info.plist"].first
-          `defaults read '#{info_plist}' CFBundleDevelopmentRegion`.gsub("\n", "").squeeze(" ")
+          lang = `defaults read '#{info_plist}' CFBundleDevelopmentRegion 2> /dev/null`.gsub("\n", "").squeeze(" ")
+
+          if lang.empty?
+            puts "Unable to detect project language. Defaulting to 'en'."
+            'en'
+          else
+            lang
+          end
         end
 
         def print_done_message(lproj_folder)
