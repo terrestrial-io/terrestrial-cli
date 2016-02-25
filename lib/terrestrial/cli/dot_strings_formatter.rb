@@ -11,7 +11,7 @@ module Terrestrial
         entries.reject(&:placeholder?).each do |entry|
           # just id and string needed for translation
           # files. extra metadata is found in base.lproj.
-          result << "\"#{entry.identifier}\"=\"#{entry.string}\";"
+          result << id_and_string(entry)
           result << ""
         end
 
@@ -20,7 +20,7 @@ module Terrestrial
         entries.select(&:placeholder?).each do |entry|
           # just id and string needed for translation
           # files. extra metadata is found in base.lproj.
-          result << "\"#{entry.identifier}\"=\"#{entry.string}\";"
+          result << id_and_string(entry)
           result << ""
         end
         result.join("\n")
@@ -55,7 +55,15 @@ module Terrestrial
       end
 
       def id_and_string(entry)
-        ["\"#{entry.identifier}\"=\"#{entry.formatted_string}\";"]
+        if entry.respond_to? :formatted_string
+          ["\"#{entry.identifier}\"=\"#{escape_string(entry.formatted_string)}\";"]
+        else
+          ["\"#{entry.identifier}\"=\"#{escape_string(entry.string)}\";"]
+        end
+      end
+
+      def escape_string(string)
+        string.gsub("\"", "\\\"")
       end
 
       def spacing

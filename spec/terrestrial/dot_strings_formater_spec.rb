@@ -80,4 +80,30 @@ EXPECTED
       expect(writer.format_foreign_translation).to eq expected
     end
   end
+
+  it "escapes all double quotes" do
+    entries = [{
+      "string" => 'mah string with " quotes',
+      "file" => "/path/to/file_1.storyboard",
+      "language" => :swift,
+      "type" => "some type?",
+      "line_number" => nil,
+      "metadata" => {
+        "storyboard_element_id" => "random-id"
+      }
+    }]
+    result = Terrestrial::Cli::Bootstrapper::Result.new
+
+    entries.each do |entry|
+      result.add(entry)
+    end
+    writer = Terrestrial::Cli::DotStringsFormatter.new(result.entries)
+
+    expected = <<-EXPECTED
+// Files:
+// - /path/to/file_1.storyboard
+"MAH_STRING_WITH_QUOTES"="mah string with \\" quotes";
+EXPECTED
+    expect(writer.format).to eq expected
+  end
 end
