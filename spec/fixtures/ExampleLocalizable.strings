@@ -20,3 +20,5 @@ Sincerely,
 */
 "multiline_comment" = "Hello %@,
 you";
+
+"MAH_URL"="https://www.mah.url";

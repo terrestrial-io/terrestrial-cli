@@ -7,7 +7,7 @@ describe Terrestrial::Cli::DotStringsParser do
 
     results = Terrestrial::Cli::DotStringsParser.parse_file(file)
 
-    expect(results.count).to eq 4
+    expect(results.count).to eq 5
 
     first = results[0]
     expect(first["string"]).to eq "nom d'utilisateur"
@@ -36,6 +36,13 @@ describe Terrestrial::Cli::DotStringsParser do
     expect(fourth["type"]).to eq "localizable.strings"
     expect(fourth["context"]).to eq "this is a\n multiline\n comment"
     expect(fourth["file"]).to eq "spec/fixtures/ExampleLocalizable.strings"
+
+    fifth = results[4]
+    expect(fifth["string"]).to eq "https://www.mah.url"
+    expect(fifth["identifier"]).to eq "MAH_URL"
+    expect(fifth["type"]).to eq "localizable.strings"
+    expect(fifth["context"]).to eq nil
+    expect(fifth["file"]).to eq "spec/fixtures/ExampleLocalizable.strings"
   end
 
   it "can handle UTF-16 encoded files" do
