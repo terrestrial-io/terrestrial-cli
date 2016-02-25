@@ -26,6 +26,16 @@ describe Terrestrial::Cli::Editor::Storyboard do
 
       expect(result).to eq File.read('spec/fixtures/ExpectedFormattingTest.storyboard')
     end
+
+    it "saves the document with the userDefinedRuntimeAttributes, while preserving formatting (large example)" do
+      entry = create_entry('storyboard-button', 'd7v-Ye-fbV', 'spec/fixtures/LargeExample.storyboard')
+
+      editor = Terrestrial::Cli::Editor::Storyboard.new(entry) 
+      editor.insert_attribute
+      result = editor.format_document
+
+      expect(result).to eq File.read('spec/fixtures/ExpectedLargeExample.storyboard')
+    end
   end
 
   context "find_node" do

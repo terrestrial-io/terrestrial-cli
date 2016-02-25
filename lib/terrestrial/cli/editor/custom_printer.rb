@@ -25,41 +25,97 @@ class CustomPrinter < REXML::Formatters::Pretty
           .each(&b)
       end
 
+      def _xcode_get_index(order, attr)
+        order.index(attr.name) || attr.name.length
+      end
+
       # Define the order for each type of Xcode element
       def xcode_index_for(attr)
         element_type = attr.element.name
         
         case element_type
         when 'userDefinedRuntimeAttribute'
-          index = ['type','keyPath','value'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['type','keyPath','value'], attr)
         when 'color'
-          index = ['key', 'white', 'alpha', 'colorSpace', 'customColorSpace'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['key', 'red', 'green', 'blue', 'white', 'alpha', 'colorSpace', 
+                                    'customColorSpace'], attr)
         when 'placeholder'
-          index = ['placeholderIdentifier', 'id', 'sceneMemberID'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['placeholderIdentifier', 'id', 'userLabel', 'sceneMemberID'], attr)
         when 'fontDescription'
-          index = ['key', 'type', 'pointSize'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['key', 'type', 'name', 'family', 'pointSize'], attr)
         when 'rect'
-          index = ['key', 'x', 'y', 'width', 'height'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['key', 'x', 'y', 'width', 'height'], attr)
         when 'label'
-          index = ['opaque', 'userInteractionEnabled', 'contentMode', 
-                   'horizontalHuggingPriority', 'verticalHuggingPriority', 
-                   'misplaced', 'textAlignment', 'lineBreakMode', 'numberOfLines', 
-                   'baselineAdjustment', 'minimumScaleFactor', 
-                   'translatesAutoresizingMaskIntoConstraints', 'id', 
-                   'customClass'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['opaque', 'multipleTouchEnabled', 'userInteractionEnabled', 'contentMode', 
+                                    'horizontalHuggingPriority', 'verticalHuggingPriority', 'text',
+                                    'misplaced', 'textAlignment', 'lineBreakMode', 'numberOfLines', 
+                                    'baselineAdjustment', 'adjustsFontSizeToFit', 'minimumScaleFactor', 
+                                    'translatesAutoresizingMaskIntoConstraints', 'id', 
+                                    'customClass'], attr)
+        when 'button'
+          index = _xcode_get_index(['opaque', 'contentMode', 'contentHorizontalAlignment', 
+                                    'contentVerticalAlignment', 'buttonType', 'lineBreakMode', 
+                                    'id'], attr)
         when 'viewController'
-          index = ['id', 'customClass', 'customModule', 
-                   'customModuleProvider', 'sceneMemberID'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['storyboardIdentifier', 'id', 'customClass', 'customModule', 
+                   'customModuleProvider', 'sceneMemberID'], attr)
         when 'viewControllerLayoutGuide'
-          index = ['type', 'id'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['type', 'id'], attr)
         when 'view'
-          index = ['key', 'contentMode', 'id'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['autoresizesSubviews','clipsSubviews', 'alpha', 'key', 
+                                    'contentMode', 'id'], attr)
         when 'autoresizingMask'
-          index = ['key', 'widthSizable', 'heightSizable'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['key', 'flexibleMaxX', 'flexibleMaxY', 'widthSizable', 
+                                    'heightSizable'], attr)
         when 'document'
-          index = ['type', 'version', 'toolsVersion', 'systemVersion', 
-                   'targetRuntime', 'propertyAccessControl', 'useAutolayout', 
-                   'useTraitCollections', 'initialViewController'].index(attr.name) || attr.name.length
+          index = _xcode_get_index(['type', 'version', 'toolsVersion', 'systemVersion', 
+                                    'targetRuntime', 'propertyAccessControl', 'useAutolayout', 
+                                    'useTraitCollections', 'initialViewController'], attr)
+        when 'document'
+          index = _xcode_get_index(['type', 'version', 'toolsVersion', 'systemVersion', 
+                                    'targetRuntime', 'propertyAccessControl', 'useAutolayout', 
+                                    'useTraitCollections', 'initialViewController'], attr)
+        when 'image'
+          index = _xcode_get_index(['name', 'width', 'height'], attr)
+        when 'imageView'
+          index = _xcode_get_index(['clipsSubviews', 'userInteractionEnabled', 'alpha', 
+                                    'contentMode', 'horizontalHuggingPriority', 
+                                    'verticalHuggingPriority', 'image', 'id'], attr)
+        when 'segue'
+          index = _xcode_get_index(['destination', 'kind', 'relationship', 'id'], attr)
+        when 'navigationBar'
+          index = _xcode_get_index(['key', 'contentMode', 'id'], attr)
+        when 'navigationItem'
+          index = _xcode_get_index(['key', 'title', 'id'], attr)
+        when 'navigationController'
+          index = _xcode_get_index(['storyboardIdentifier', 'automaticallyAdjustsScrollViewInsets', 
+                                    'id', 'sceneMemberID'], attr)
+        when 'outlet'
+          index = _xcode_get_index(['property', 'destination', 'id'], attr)
+        when 'action'
+          index = _xcode_get_index(['selector', 'destination', 'id'], attr)
+        when 'barButtonItem'
+          index = _xcode_get_index(['key', 'title', 'id'], attr)
+        when 'tableViewController'
+          index = _xcode_get_index(['restorationIdentifier', 'storyboardIdentifier', 'id', 
+                                    'customClass', 'sceneMemberID'], attr)
+        when 'tableView'
+          index = _xcode_get_index(['key', 'clipsSubviews', 'contentMode', 'alwaysBounceVertical', 
+                                    'dataMode', 'style', 'separatorStyle', 'rowHeight', 
+                                    'sectionHeaderHeight', 'sectionFooterHeight', 'id'], attr)
+        when 'tableViewCellContentView'
+          index = _xcode_get_index(['key', 'opaque', 'clipsSubviews', 'multipleTouchEnabled', 
+                                    'contentMode', 'tableViewCell', 'id'], attr)
+        when 'tableViewCell'
+          index = _xcode_get_index(['key', 'opaque', 'clipsSubviews', 'multipleTouchEnabled', 
+                                    'contentMode', 'selectionStyle', 'accessoryType', 'indentationWidth', 
+                                    'textLabel', 'detailTextLabel', 'rowHeight', 'style', 'id'], attr)
+        when 'size'
+          index = _xcode_get_index(['key', 'width', 'height'], attr)
+        when 'textField'
+          index = _xcode_get_index(['opaque', 'clipsSubviews', 'contentMode', 'contentHorizontalAlignment', 
+                                    'contentVerticalAlignment', 'text', 'borderStyle', 'placeholder', 
+                                    'textAlignment', 'minimumFontSize', 'id'], attr)
         else
           index = attr.name
         end
