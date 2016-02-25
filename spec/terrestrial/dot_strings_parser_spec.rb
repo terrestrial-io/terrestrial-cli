@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Terrestrial::Cli::DotStringsParser do
 
+  def make_aborts_raise!
+    allow(Kernel).to receive(:abort).and_raise(RuntimeError.new("Parser aborted prematurely"))
+  end
+
+  before(:each) do
+    make_aborts_raise!
+  end
+
   it "parses an Localizable.strings file format for strings and identifiers" do
     file = "spec/fixtures/ExampleLocalizable.strings"
 

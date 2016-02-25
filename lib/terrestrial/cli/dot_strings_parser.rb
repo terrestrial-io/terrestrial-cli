@@ -115,7 +115,7 @@ module Terrestrial
         puts ""
         puts "  line #{@current_line_number}: "
         puts "  #{@current_line}"
-        abort
+        Kernel.abort
       end
 
       def get_string_and_id(line)
