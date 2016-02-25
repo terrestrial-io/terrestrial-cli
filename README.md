@@ -1,6 +1,6 @@
 # Terrestrial::Cli
 
-![Build Status](https://circleci.com/gh/terrestrial-io/terrestrial-cli.svg?style=shield)
+[![Build Status](https://circleci.com/gh/terrestrial-io/terrestrial-cli.svg?style=shield)](https://circleci.com/gh/terrestrial-io/terrestrial-cli)
 
 Official Terrestrial command line tool. For documentation visit the [official docs](http://docs.terrestrial.io/).
 
