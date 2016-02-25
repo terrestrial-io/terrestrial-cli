@@ -63,6 +63,8 @@ module Terrestrial
 
         def save_document
           File.open(@path, "w") do |f|
+            f.write '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            '
             f.write format_document
           end 
         end

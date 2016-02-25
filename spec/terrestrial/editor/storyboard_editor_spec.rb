@@ -17,14 +17,12 @@ describe Terrestrial::Cli::Editor::Storyboard do
   end
 
   context "save_document" do
-    # Temporarily disabled as attribute ordering cannot be guaranteed at this point
-    xit "saves the document with the userDefinedRuntimeAttributes, while preserving formatting" do
+    it "saves the document with the userDefinedRuntimeAttributes, while preserving formatting" do
       entry = create_entry('storyboard-label', 'pZ6-a6-9bd', 'spec/fixtures/FormattingTest.storyboard')
 
       editor = Terrestrial::Cli::Editor::Storyboard.new(entry) 
       editor.insert_attribute
       result = editor.format_document
-      puts result
 
       expect(result).to eq File.read('spec/fixtures/ExpectedFormattingTest.storyboard')
     end

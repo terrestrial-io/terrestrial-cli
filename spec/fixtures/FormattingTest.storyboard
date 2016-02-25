@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
@@ -18,13 +17,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pZ6-a6-9bd" customClass="KLLabel">
-                               <rect key="frame" x="20" y="312" width="560" height="72"/>
-                               <string key="text">This is some really important text that needs to be preserved in its correct order. No whitespace should be added before or after the string. 
+                                <rect key="frame" x="20" y="312" width="560" height="72"/>
+                                <string key="text">This is some really important text that needs to be preserved in its correct order. No whitespace should be added before or after the string. 
 
                                 I also have whitespace that needs to be preserved</string>
-                               <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                               <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                               <nil key="highlightedColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
