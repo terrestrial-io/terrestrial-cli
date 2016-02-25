@@ -119,7 +119,8 @@ module Terrestrial
       end
 
       def get_string_and_id(line)
-        cap = line.match(/"([^"]*)"\s*=\s*"([^"]*)";$/).captures
+        key_and_string_escape_double_quotes = /"((?:[^"\\]|\\.)*)"\s*=\s*\"((?:[^"\\]|\\.)*)";$/
+        cap = line.match(key_and_string_escape_double_quotes).captures
         if cap[0].nil? || cap[1].nil?
           raise LocaliableStringsParserError
         else

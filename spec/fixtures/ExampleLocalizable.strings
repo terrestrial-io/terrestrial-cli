@@ -22,3 +22,5 @@ Sincerely,
 you";
 
 "MAH_URL"="https://www.mah.url";
+
+"has_escaped_quote" = "Look at \"how\" escaped I am.";

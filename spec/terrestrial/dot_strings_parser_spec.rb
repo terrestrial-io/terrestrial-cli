@@ -15,7 +15,7 @@ describe Terrestrial::Cli::DotStringsParser do
 
     results = Terrestrial::Cli::DotStringsParser.parse_file(file)
 
-    expect(results.count).to eq 5
+    expect(results.count).to eq 6
 
     first = results[0]
     expect(first["string"]).to eq "nom d'utilisateur"
@@ -51,6 +51,13 @@ describe Terrestrial::Cli::DotStringsParser do
     expect(fifth["type"]).to eq "localizable.strings"
     expect(fifth["context"]).to eq nil
     expect(fifth["file"]).to eq "spec/fixtures/ExampleLocalizable.strings"
+
+    sixth = results[5]
+    expect(sixth["string"]).to eq 'Look at \"how\" escaped I am.'
+    expect(sixth["identifier"]).to eq "has_escaped_quote"
+    expect(sixth["type"]).to eq "localizable.strings"
+    expect(sixth["context"]).to eq nil
+    expect(sixth["file"]).to eq "spec/fixtures/ExampleLocalizable.strings"
   end
 
   it "can handle UTF-16 encoded files" do
