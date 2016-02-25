@@ -10,7 +10,11 @@ module Terrestrial
               entry["file"] = file # Ensure paths are relative
             end
           rescue Errno::ENOENT
-            abort "Could not find #{file}. If the file is no longer in your project, remove it from your tracked files in terrestrial.yml." 
+            puts ""
+            puts "Could not find localization file."
+            puts "Looked in #{Config[:directory] + "/" + file}"
+            puts "If the file is no longer in your project, remove it from your tracked files in terrestrial.yml."
+            abort
           end
         end
 

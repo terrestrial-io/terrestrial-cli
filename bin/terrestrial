@@ -32,7 +32,7 @@ OptionParser.new do |opts|
     options[:verbose] = true
   end
 
-  opts.on_tail("--version", "Show version") do
+  opts.on_tail("-v", "--version", "Show version") do
     puts "Terrestrial CLI: #{Terrestrial::Cli::VERSION}"
     exit
   end
