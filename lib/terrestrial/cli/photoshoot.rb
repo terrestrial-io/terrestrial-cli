@@ -26,12 +26,10 @@ module Terrestrial
           # If a workspace exists we want to build it instead of the project.
           # We assume the scheme we want to use is simply the application name
           app_name = File.basename(workspace).split(".").first
-          `xcodebuild -workspace "#{workspace}" -arch "i386" ONLY_ACTIVE_ARCH=NO VALID_ARCHS="i386 x86_64" -scheme #{app_name} -sdk iphonesimulator clean`
-          `xcodebuild -workspace "#{workspace}" -arch "i386" ONLY_ACTIVE_ARCH=NO VALID_ARCHS="i386 x86_64" -scheme #{app_name} -sdk iphonesimulator CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
+          `xcodebuild -workspace "#{workspace}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
         else
           app_name = File.basename(project).split(".").first
-          `xcodebuild -project "#{project}" -arch i386 -sdk iphonesimulator clean`
-          `xcodebuild -project "#{project}" -arch i386 -sdk iphonesimulator CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
+          `xcodebuild -project "#{project}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
         end
         `open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app`
 
