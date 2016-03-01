@@ -7,12 +7,17 @@ module Terrestrial
       def run
         Config.load!
         MixpanelClient.track("cli-photoshoot-command")
+        scheme = opts[:scheme] 
 
         if Config[:platform] != "ios"
           abort "Unfortunately photoshoot mode is only supported on iOS at this time."
         end
 
-        puts "Starting simulator in photoshoot mode..."
+        if scheme
+          puts "Starting simulator in photoshoot mode with scheme \"#{scheme}\"..."
+        else
+          puts "Starting simulator in photoshoot mode..."
+        end
         ensure_var_folder_exists
 
         workspace = Dir["#{Config[:directory]}/*.xcworkspace"][0]
@@ -26,10 +31,10 @@ module Terrestrial
           # If a workspace exists we want to build it instead of the project.
           # We assume the scheme we want to use is simply the application name
           app_name = File.basename(workspace).split(".").first
-          `xcodebuild -workspace "#{workspace}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
+          `xcodebuild -workspace "#{workspace}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{scheme || app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
         else
           app_name = File.basename(project).split(".").first
-          `xcodebuild -project "#{project}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
+          `xcodebuild -project "#{project}" -destination 'platform=iOS Simulator,name=iPhone 6s' -scheme #{scheme || app_name} -configuration Debug clean build CONFIGURATION_BUILD_DIR=#{WORKING_DIR}`
         end
         `open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app`
 

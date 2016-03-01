@@ -32,6 +32,10 @@ OptionParser.new do |opts|
     options[:verbose] = true
   end
 
+  opts.on("--scheme [string]", "Define the Xcode schema to launch your app in, in Ignite and Photoshoot commands.") do |sceme|
+    options[:scheme] = sceme.to_s
+  end
+
   opts.on_tail("-v", "--version", "Show version") do
     puts "Terrestrial CLI: #{Terrestrial::Cli::VERSION}"
     exit

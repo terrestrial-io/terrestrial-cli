@@ -75,7 +75,7 @@ module Terrestrial
     end
 
     def self.ignite(opts, args)
-      opts["language"] = args[0]
+      opts[:language] = args[0]
       Terrestrial::Cli::Ignite.run(opts)
     end
 
