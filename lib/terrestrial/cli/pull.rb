@@ -42,7 +42,7 @@ module Terrestrial
         elsif Config[:platform] == "android"
           android_translation_file_path(language) 
         elsif Config[:platform] == "unity"
-          Config[:directory] + "/Assets/Terrestrial/" + human_readable_language_name(language) + ".xml"
+          unity_translation_file_path(language)
         end
       end
 
@@ -64,6 +64,14 @@ module Terrestrial
 
         FileUtils.mkdir_p(folder)
         folder + "/strings.xml"
+      end
+
+      def unity_translation_file_path(language)
+        folder = Pathname.new(Config[:directory] + "/" + Config[:translation_files].first)
+                  .parent
+                  .to_s 
+
+        folder + "/" + human_readable_language_name(language) + ".xml"
       end
 
       def write_translation_file(path, translations)

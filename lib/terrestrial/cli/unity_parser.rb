@@ -10,6 +10,7 @@ module Terrestrial
         # to be unity instead of the Android default.
         result.map do |entry|
           entry["type"] = "unity"
+          entry
         end
       end
     end

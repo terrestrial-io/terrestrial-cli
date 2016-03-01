@@ -1,6 +1,6 @@
 module Terrestrial
   module Cli
-    module LanguageName
+    class LanguageName
 
       LANGUAGES = {
         "af" => "Afrikaans",
