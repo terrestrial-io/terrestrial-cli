@@ -56,7 +56,7 @@ module Terrestrial
         # Reinstall the app,
         # Run it with the locale we want
         `xcrun simctl uninstall booted #{bundle_name}`
-        `xcrun simctl install booted "#{Dir[WORKING_DIR + "/" + app_name + ".app"].first}"`
+        `xcrun simctl install booted "#{Dir[WORKING_DIR + "/" + (scheme || app_name) + ".app"].first}"`
         `xcrun simctl launch booted #{bundle_name} --args -TerrestrialScreenShotMode YES -TerrestrialAPIToken "#{Config[:api_key]}" -TerrestrialAppId "#{Config[:app_id]}" -TerrestrialProjectId "#{Config[:project_id]}" -TerrestrialURL "#{Config[:api_url]}"`
       end
 
