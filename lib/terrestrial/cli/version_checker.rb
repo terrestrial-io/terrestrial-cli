@@ -1,13 +1,22 @@
 require 'json'
+require 'net/http'
+require 'uri'
 
 module Terrestrial
   module Cli
     class VersionChecker
     
-      URL = 'https://api.github.com/repos/terrestrial-io/terrestrial-cli/releases/latest'
+      URL = URI('https://api.github.com/repos/terrestrial-io/terrestrial-cli/releases/latest')
 
       def self.run
-        response = Net::HTTP.get_response(URI(URL))
+        http = Net::HTTP.new(URL.host, URL.port)
+        http.read_timeout = 3
+        http.open_timeout = 3
+
+        response = http.start() {|client|
+          client.get(URL.path)
+        }
+
         json = JSON.load(response.body)
 
         # Ignore the "v" in "v1.1.1"
@@ -27,7 +36,7 @@ module Terrestrial
         end
       rescue JSON::ParserError => e
         # Don't worry about JSON parsing errors - just carry on
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue SocketError, Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
                Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         # Don't worry about Net HTTP errors - just carry on
       end

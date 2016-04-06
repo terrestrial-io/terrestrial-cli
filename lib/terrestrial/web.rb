@@ -52,6 +52,8 @@ module Terrestrial
       request["AUTHENTICATE"] = @token
 
       Response.new(http.request(request))
+    rescue Errno::ECONNREFUSED, SocketError
+      abort 'Unable to connect to Terrestrial Mission Control. Are you connected to the internet?'
     end
 
     def get(path)
@@ -63,6 +65,8 @@ module Terrestrial
       request["AUTHENTICATE"] = @token
 
       Response.new(http.request(request))
+    rescue Errno::ECONNREFUSED, SocketError
+      abort 'Unable to connect to Terrestrial Mission Control. Are you connected to the internet?'
     end
 
     def base_url
