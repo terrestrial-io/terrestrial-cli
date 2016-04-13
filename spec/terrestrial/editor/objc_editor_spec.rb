@@ -21,4 +21,26 @@ describe Terrestrial::Cli::Editor::ObjC do
       Terrestrial::Cli::Editor::ObjC.do_edit_string(line, double(:entry, string: string, identifier: identifier))
     ).to eq 'cell.menuItemLabel.text = @"Ask Hacker News".translated;'
   end
+
+  context 'bug: backslashes - Too Short Escape Sequence' do
+    it 'does not care about single backslashes' do
+      line = 'cell.menuItemLabel.text = @"\";'
+      string = '\\'
+      identifier = "EE"
+
+      expect(
+        Terrestrial::Cli::Editor::ObjC.do_edit_string(line, double(:entry, string: string, identifier: identifier))
+      ).to eq 'cell.menuItemLabel.text = @"EE".translated;'
+    end
+
+    it 'does not care about single backslashes in words' do
+      line = 'cell.menuItemLabel.text = @"\this is a string";'
+      string = '\this is a string'
+      identifier = "EE"
+
+      expect(
+        Terrestrial::Cli::Editor::ObjC.do_edit_string(line, double(:entry, string: string, identifier: identifier))
+      ).to eq 'cell.menuItemLabel.text = @"EE".translated;'
+    end
+  end
 end

@@ -58,7 +58,7 @@ module Terrestrial
           #   followed by translated
 
 
-          /@"#{string}"(?!(\.|\s)translated)/
+          /@"#{Regexp.quote(string)}"(?!(\.|\s)translated)/
         end
       end
     end
